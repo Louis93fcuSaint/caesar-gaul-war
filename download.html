@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>下载中心 - 凯撒：高卢战记</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#7A5810;--gold-faint:rgba(201,168,76,.12);
+  --parch:#F4E8C1;--parch-d:#C8B07A;--parch-dim:rgba(200,176,120,.55);
+  --bg:#080503;--roman:#8B1A1A;--gaul:#1A3A8B;
+  --border:rgba(201,168,76,.18);
+  --germ-c:#5EAD56;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC',serif;background:var(--bg);color:var(--parch-d);min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%,rgba(139,26,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%,rgba(26,58,139,.07) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px),
+    repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px);
+}
+
+/* ── HEADER ── */
+#site-header{position:sticky;top:0;z-index:100;background:rgba(6,3,1,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:62px;}
+.site-logo{font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold);letter-spacing:3px;text-shadow:0 0 20px rgba(201,168,76,.4);white-space:nowrap;}
+.site-logo span{font-size:11px;color:var(--parch-dim);letter-spacing:5px;display:block;margin-top:1px;}
+.header-nav{display:flex;gap:4px;align-items:center;}
+.hn-btn{padding:6px 14px;background:transparent;border:1px solid transparent;color:var(--parch-dim);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.hn-btn:hover,.hn-btn.active{color:var(--gold);border-color:var(--border);background:var(--gold-faint);}
+
+/* ── HERO ── */
+#hero{position:relative;overflow:hidden;padding:70px 40px 60px;text-align:center;border-bottom:1px solid var(--border);}
+#hero-canvas{position:absolute;inset:0;opacity:.18;pointer-events:none;}
+.hero-label{font-size:10px;color:var(--gold-d);letter-spacing:8px;margin-bottom:16px;font-family:'Cinzel',serif;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:52px;color:var(--gold);letter-spacing:6px;animation:glow 3s ease-in-out infinite;}
+@keyframes glow{0%,100%{text-shadow:0 0 30px rgba(201,168,76,.4);}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 100px rgba(201,168,76,.3);}}
+.hero-sub{font-size:13px;color:var(--parch-dim);letter-spacing:7px;margin:10px 0 30px;font-family:'Cinzel',serif;}
+.hero-desc{max-width:620px;margin:0 auto;font-size:14px;line-height:2;color:var(--parch-d);}
+.hero-divider{width:300px;height:1px;margin:30px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;}
+.hero-divider::before{content:'◆';position:absolute;left:50%;top:-8px;transform:translateX(-50%);color:var(--gold);font-size:13px;}
+.hero-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.hero-badge{padding:6px 16px;border:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);background:rgba(0,0,0,.3);}
+
+/* ── 站点导航 ── */
+.site-navbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:16px 30px;background:rgba(6,3,1,.92);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.site-navbar a{padding:10px 20px;background:rgba(14,6,1,.88);border:1px solid var(--gold-d);color:var(--parch-d);text-decoration:none;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;transition:all .2s;}
+.site-navbar a:hover,.site-navbar a.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 30px;position:relative;z-index:1;}
+.section-block{padding:56px 0;border-bottom:1px solid var(--border);}
+.section-block:last-child{border-bottom:none;}
+.sec-label{font-size:9px;color:var(--gold-d);letter-spacing:6px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.sec-title{font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
+.sec-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:28px;max-width:700px;}
+
+/* ── TIP BOX ── */
+.tip-box{display:flex;gap:12px;align-items:flex-start;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);padding:12px 16px;margin:16px 0;}
+.tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tip-text{font-size:12px;line-height:1.8;color:rgba(200,176,120,.75);}
+
+/* ══ 主下载卡片 ══ */
+.dl-main-card{
+  background:linear-gradient(135deg,rgba(20,8,2,.98),rgba(8,3,0,.99));
+  border:1px solid var(--gold);
+  padding:40px 36px;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:32px;
+  position:relative;overflow:hidden;
+  margin-bottom:20px;
+}
+.dl-main-card::before{
+  content:'v3.6';
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-family:'Cinzel Decorative',serif;font-size:100px;
+  color:rgba(201,168,76,.04);letter-spacing:4px;pointer-events:none;
+}
+.dl-main-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.dl-ver-badge{
+  display:inline-block;padding:3px 12px;
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;
+  border:1px solid var(--gold);color:var(--gold);
+  background:rgba(201,168,76,.08);margin-bottom:14px;
+}
+.dl-main-title{font-family:'Cinzel Decorative',serif;font-size:24px;color:var(--gold);letter-spacing:3px;margin-bottom:10px;}
+.dl-main-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:20px;max-width:560px;}
+.dl-includes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+.dl-tag{font-size:10px;letter-spacing:2px;padding:3px 10px;border:1px solid rgba(201,168,76,.2);color:var(--parch-dim);font-family:'Cinzel',serif;background:rgba(0,0,0,.3);}
+.dl-tag.highlight{border-color:var(--gold-d);color:var(--parch);}
+.dl-meta{font-size:11px;color:var(--gold-d);letter-spacing:2px;font-family:'Cinzel',serif;margin-top:14px;}
+.dl-meta span{margin-right:18px;}
+
+.dl-btn-wrap{text-align:center;flex-shrink:0;}
+.dl-btn{
+  display:block;padding:16px 40px;
+  background:rgba(201,168,76,.12);border:1px solid var(--gold);
+  font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:var(--gold);
+  text-decoration:none;cursor:pointer;transition:all .3s;white-space:nowrap;
+  position:relative;overflow:hidden;
+}
+.dl-btn::before{content:'';position:absolute;inset:0;background:rgba(201,168,76,.08);transform:translateX(-100%);transition:transform .3s;}
+.dl-btn:hover{box-shadow:0 0 30px rgba(201,168,76,.2);transform:scale(1.03);}
+.dl-btn:hover::before{transform:translateX(0);}
+.dl-btn-sub{font-size:10px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;margin-top:10px;text-align:center;}
+
+/* ══ 备用下载 ══ */
+.alt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.alt-card{
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);padding:20px;
+  transition:all .28s;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:16px;
+}
+.alt-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.alt-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.5);}
+.alt-card:hover::before{opacity:1;}
+.alt-icon{font-size:28px;flex-shrink:0;}
+.alt-body{flex:1;}
+.alt-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-l);letter-spacing:2px;margin-bottom:4px;}
+.alt-desc{font-size:11px;color:var(--parch-dim);line-height:1.7;}
+.alt-link{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--gold-d);border:1px solid var(--gold-d);padding:4px 12px;
+  text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.alt-link:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ══ 安装说明 ══ */
+.install-steps{display:flex;flex-direction:column;gap:0;}
+.install-step{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:18px 20px;
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);border-top:none;
+  transition:background .2s;
+}
+.install-step:first-child{border-top:1px solid var(--border);}
+.install-step:hover{background:rgba(201,168,76,.03);}
+.step-circle{
+  width:36px;height:36px;flex-shrink:0;
+  border:1px solid var(--gold-d);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel Decorative',serif;font-size:15px;color:var(--gold);
+}
+.step-content{}
+.step-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:5px;}
+.step-desc{font-size:12px;color:var(--parch-dim);line-height:1.8;}
+
+/* ══ 系统要求 ══ */
+.req-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.req-grid{grid-template-columns:1fr;}}
+.req-card{background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));border:1px solid var(--border);padding:20px;}
+.req-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.req-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px;}
+.req-label{color:var(--gold-d);font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;width:60px;flex-shrink:0;padding-top:1px;}
+.req-val{color:var(--parch-dim);line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{padding:40px 32px;text-align:center;border-top:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:1;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);letter-spacing:4px;margin-bottom:8px;text-shadow:0 0 20px rgba(201,168,76,.3);}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+.footer-links a{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--parch-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:10px;letter-spacing:4px;color:rgba(200,176,120,.25);font-family:'Cinzel',serif;margin-top:16px;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+@media(max-width:700px){
+  .dl-main-card{grid-template-columns:1fr;}
+  .dl-main-card::before{display:none;}
+  .hero-title{font-size:32px;}
+  .site-logo{font-size:13px;}
+  #site-header{padding:0 16px;}
+  .page-wrap{padding:0 16px;}
+  .header-nav{display:none;}
+  .site-navbar{padding:12px 16px;}
+  .site-navbar a{padding:8px 12px;font-size:11px;}
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="site-logo">
+    CAESAR
+    <span>凯撒：高卢战记 · 下载中心</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#download" class="hn-btn">下载</a>
+    <a href="#install"  class="hn-btn">安装说明</a>
+    <a href="#sysreq"   class="hn-btn">系统要求</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-label">ALEA IACTA EST · 骰子已经投出</div>
+  <h1 class="hero-title">CAESAR</h1>
+  <div class="hero-sub">凯撒：高卢战记 · 下载中心</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    《凯撒：高卢战记》是一款以公元前1世纪罗马征服高卢为背景的<strong style="color:var(--gold-l)">回合制六角格战棋</strong>策略游戏。
+    玩家指挥四大历史势力，在等距3D战场上展开战术较量，还原凯撒《高卢战记》中的六大历史战役。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">⚔ 回合制战棋</span>
+    <span class="hero-badge">🗺 六大历史战役</span>
+    <span class="hero-badge">🦅 四大阵营</span>
+    <span class="hero-badge">🌐 多人联机</span>
+    <span class="hero-badge">🌫 迷雾战争模式</span>
+  </div>
+</section>
+
+<!-- 站点导航 -->
+<nav class="site-navbar">
+  <a href="index.html">首页</a>
+  <a href="play.html">在线游戏</a>
+  <a href="expansion.html">扩展包</a>
+  <a href="help.html">帮助中心</a>
+  <a href="community.html">玩家社区</a>
+  <a href="download.html" class="active">下载</a>
+</nav>
+
+<main class="page-wrap">
+
+<!-- ══ 主下载区 ══ -->
+<section id="download" class="section-block">
+  <div class="sec-label">TABULARIUM · 档案库</div>
+  <h2 class="sec-title">获取离线版本</h2>
+  <p class="sec-desc">下载完整离线包，无需网络即可在本地运行全部内容。包含基础版与高卢战争扩展包，支持单人与联机模式。</p>
+
+  <!-- 主下载卡片 -->
+  <div class="dl-main-card">
+    <div>
+      <div class="dl-ver-badge">VERSIO · v3.6 · 最新版本</div>
+      <div class="dl-main-title">凯撒：高卢战记</div>
+      <p class="dl-main-desc">完整离线包，解压即玩，无需安装。包含基础版全部六大历史战役与高卢战争扩展包所有内容，支持本地存档与高清纹理。</p>
+      <div class="dl-includes">
+        <span class="dl-tag highlight">✓ 基础版全内容</span>
+        <span class="dl-tag highlight">✓ 高卢战争扩展包</span>
+        <span class="dl-tag">✓ 四大阵营</span>
+        <span class="dl-tag">✓ 六大历史战役</span>
+        <span class="dl-tag">✓ 多人联机模式</span>
+        <span class="dl-tag">✓ 随机地图</span>
+      </div>
+      <div class="dl-meta">
+        <span>📦 文件大小：124 MB</span>
+        <span>📁 格式：.zip</span>
+        <span>🔑 MD5：AF24...E89</span>
+      </div>
+    </div>
+    <div class="dl-btn-wrap">
+      <!-- ★ 将 href 替换为你的实际下载链接 -->
+      <a href="downloads/caesar_gaul_v36.zip" download class="dl-btn">
+        💾 &nbsp; 立即下载
+      </a>
+      <div class="dl-btn-sub">Windows · .zip · 124 MB</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-icon">💡</div>
+    <div class="tip-text">下载后直接解压，双击 <b>index.html</b> 用浏览器打开即可游玩，无需安装任何额外软件。推荐使用 Chrome 或 Edge 以获得最佳体验。</div>
+  </div>
+
+  <!-- 备用下载 -->
+  <div style="margin-top:32px;">
+    <div class="sec-label" style="margin-bottom:14px;">FONTES ALTERNATIVI · 备用下载渠道</div>
+    <div class="alt-grid">
+
+      <div class="alt-card">
+        <div class="alt-icon">🐙</div>
+        <div class="alt-body">
+          <div class="alt-title">GitHub Releases</div>
+          <p class="alt-desc">官方代码仓库，提供所有历史版本下载，包含 MD5 校验文件。</p>
+        </div>
+        <!-- ★ 替换为你的 GitHub Releases 链接 -->
+        <a href="https://github.com/你的用户名/caesar-gaul/releases" target="_blank" class="alt-link">前往 →</a>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-icon">☁️</div>
+        <div class="alt-body">
+          <div class="alt-title">网盘备用镜像</div>
+          <p class="alt-desc">如主链接下载缓慢，可使用此镜像，文件内容与主包完全相同。</p>
+        </div>
+        <!-- ★ 替换为你的网盘链接（百度/阿里/OneDrive 等） -->
+        <a href="#" class="alt-link">前往 →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 安装说明 ══ -->
+<section id="install" class="section-block">
+  <div class="sec-label">INSTRUCTIO · 安装说明</div>
+  <h2 class="sec-title">三步开始游戏</h2>
+  <p class="sec-desc">本游戏为纯网页应用，无需安装，解压即可运行。</p>
+
+  <div class="install-steps">
+    <div class="install-step">
+      <div class="step-circle">Ⅰ</div>
+      <div class="step-content">
+        <div class="step-title">下载并解压</div>
+        <p class="step-desc">点击上方「立即下载」获取 <b>caesar_gaul_v36.zip</b>，下载完成后右键选择「解压到当前文件夹」或使用 WinRAR / 7-Zip 解压。</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="step-circle">Ⅱ</div>
+      <div class="step-content">
+        <div class="step-title">打开游戏入口</div>
+        <p class="step-desc">进入解压后的文件夹，找到 <b>index.html</b>，右键选择「用 Chrome 打开」或「用 Edge 打开」。推荐使用 Chromium 内核浏览器以保证最佳兼容性。</p>
+      </div>
+    </div>
+    <div class="install-step">
+      <div class="step-circle">Ⅲ</div>
+      <div class="step-content">
+        <div class="step-title">出征</div>
+        <p class="step-desc">游戏主界面加载完成后即可开始。本地版与在线版功能完全相同，存档自动保存在浏览器本地存储中。按 <b>F11</b> 进入全屏以获得最佳体验。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:4px;">
+    <div class="tip-icon">⚠️</div>
+    <div class="tip-text">部分浏览器会拦截本地文件的脚本执行。如遇页面空白或功能异常，请尝试：① 将文件夹放入 Web 服务器目录（如 XAMPP 的 htdocs），或 ② 使用 VS Code 的 Live Server 插件直接运行。</div>
+  </div>
+</section>
+
+<!-- ══ 系统要求 ══ -->
+<section id="sysreq" class="section-block">
+  <div class="sec-label">REQUISITA · 系统要求</div>
+  <h2 class="sec-title">运行环境</h2>
+  <p class="sec-desc">本游戏基于 HTML5 + JavaScript 构建，对硬件要求极低，任何能运行现代浏览器的设备均可流畅游玩。</p>
+
+  <div class="req-grid">
+    <div class="req-card">
+      <div class="req-title">最低配置</div>
+      <div class="req-row"><span class="req-label">操作系统</span><span class="req-val">Windows 7 / macOS 10.12 / 任意 Linux</span></div>
+      <div class="req-row"><span class="req-label">浏览器</span><span class="req-val">Chrome 80+ · Firefox 75+ · Edge 80+</span></div>
+      <div class="req-row"><span class="req-label">内存</span><span class="req-val">2 GB RAM</span></div>
+      <div class="req-row"><span class="req-label">存储</span><span class="req-val">200 MB 可用空间</span></div>
+      <div class="req-row"><span class="req-label">网络</span><span class="req-val">离线可用（联机模式需要网络）</span></div>
+    </div>
+    <div class="req-card">
+      <div class="req-title">推荐配置</div>
+      <div class="req-row"><span class="req-label">操作系统</span><span class="req-val">Windows 10/11 · macOS 13+</span></div>
+      <div class="req-row"><span class="req-label">浏览器</span><span class="req-val">Chrome 120+ · Edge 120+（最新版）</span></div>
+      <div class="req-row"><span class="req-label">内存</span><span class="req-val">4 GB RAM</span></div>
+      <div class="req-row"><span class="req-label">显示器</span><span class="req-val">1080p 或以上分辨率</span></div>
+      <div class="req-row"><span class="req-label">网络</span><span class="req-val">10 Mbps+（多人联机模式）</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">CAESAR</div>
+  <p style="font-size:11px;letter-spacing:4px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-bottom:4px;">凯撒：高卢战记</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="play.html">在线游戏</a>
+    <a href="expansion.html">扩展包</a>
+    <a href="help.html">帮助中心</a>
+    <a href="community.html">玩家社区</a>
+    <a href="download.html">下载</a>
+  </div>
+  <div class="footer-copy">CAESAR · BELLUM GALLICUM © 2024 ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+function initHeroCanvas(){
+  const cvs=document.getElementById('hero-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H;
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  const stars=Array.from({length:120},()=>({x:Math.random(),y:Math.random(),s:Math.random()*.8+.2,v:Math.random()*.0002+.0001,a:Math.random()}));
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{s.a+=s.v;const alpha=(.3+.7*Math.abs(Math.sin(s.a)))*.6;ctx.fillStyle=`rgba(201,168,76,${alpha})`;ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();});
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+function initNavHighlight(){
+  const sections=document.querySelectorAll('section[id]');
+  const btns=document.querySelectorAll('.hn-btn');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){btns.forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.hn-btn[href="#${e.target.id}"]`);if(btn)btn.classList.add('active');}});
+  },{threshold:0.3});
+  sections.forEach(s=>obs.observe(s));
+}
+window.addEventListener('load',()=>{initHeroCanvas();initNavHighlight();});
+</script>
+</body>
+</html>

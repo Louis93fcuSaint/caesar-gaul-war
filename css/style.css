@@ -1,0 +1,70 @@
+/* 导入核心字体 */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap');
+
+:root {
+  --gold: #C9A84C;
+  --gold-l: #E8C96A;
+  --gold-d: #7A5810;
+  --parch: #F4E8C1;
+  --parch-d: #C8B07A;
+  --roman: #8B1A1A;
+  --gaul: #1A3A8B;
+  --bg-dark: #0a0603;
+}
+
+/* 全局基础设置 */
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { 
+  width:100%; 
+  min-height:100%; 
+  background: var(--bg-dark); 
+  font-family:'Cinzel', serif; 
+  color: var(--parch-d);
+}
+
+/* 核心背景：扫描线 + 径向渐变 */
+.scr-lines {
+  position:fixed; inset:0; pointer-events:none; z-index:1;
+  background: repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.04) 59px),
+              repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.04) 59px);
+}
+
+.screen {
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start; 
+  padding:40px 20px; 
+  background:radial-gradient(ellipse at 50% 40%,#2e1a06 0%,#0a0603 100%);
+  position: relative; min-height: 100vh;
+}
+
+.scr-body { position:relative; z-index:2; text-align:center; max-width:900px; width:100%; }
+
+/* 标题组件 */
+.seclbl { font-size:11px; color:var(--gold); letter-spacing:7px; margin-bottom:18px; text-transform: uppercase; }
+.gtitle { font-family:'Cinzel Decorative', serif; font-size:42px; color:var(--gold); letter-spacing:4px; text-shadow:0 0 22px rgba(201,168,76,.5); }
+.gline { width:320px; height:2px; margin:16px auto 32px; background:linear-gradient(90deg,transparent,var(--gold),transparent); position:relative; }
+.gline::before { content:'◆'; position:absolute; top:-9px; left:50%; transform:translateX(-50%); color:var(--gold); font-size:15px; }
+
+/* 导航栏样式 (完全复用 help-nav 风格) */
+.navbar { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; }
+.navbar a { 
+  padding:10px 20px; background:rgba(14,6,1,.88); border:1px solid var(--gold-d); 
+  color:var(--parch-d); text-decoration:none; font-size:12px; letter-spacing:2px; transition:all .2s; 
+}
+.navbar a:hover, .navbar a.active { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.08); }
+
+/* 方块/卡片组件 (完全复刻 help.html 的方块感) */
+.card { background:rgba(14,6,1,.92); border:1px solid var(--gold-d); border-left:3px solid var(--gold); padding:22px; margin:20px 0; text-align: left; }
+.card-h3 { font-family:'Cinzel',serif; font-size:18px; color:var(--gold-l); letter-spacing:2px; margin-bottom:12px; }
+.card-p { font-family:sans-serif; font-size:14px; color:var(--parch-d); line-height:1.9; }
+
+/* 提示框组件 */
+.tip-box { background:rgba(201,168,76,.07); border:1px solid rgba(201,168,76,.2); padding:14px 18px; margin:15px 0; font-family:sans-serif; font-size:14px; color:rgba(200,176,120,.75); line-height:1.8; text-align: left; }
+.tip-box::before { content:'💡 '; }
+
+/* 按钮组件 */
+.btn { 
+  display:inline-block; padding:12px 30px; background:rgba(18,8,2,.88); border:1px solid var(--gold-d); 
+  color:var(--parch); font-family:'Cinzel',serif; font-size:14px; letter-spacing:2px; cursor:pointer; 
+  transition:all .25s; text-decoration:none; 
+}
+.btn:hover { border-color:var(--gold); color:var(--gold); transform: scale(1.05); }

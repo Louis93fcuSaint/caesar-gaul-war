@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线游戏 - 凯撒：高卢战记</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#7A5810;--gold-faint:rgba(201,168,76,.12);
+  --parch:#F4E8C1;--parch-d:#C8B07A;--parch-dim:rgba(200,176,120,.55);
+  --bg:#080503;--roman:#8B1A1A;--gaul:#1A3A8B;
+  --border:rgba(201,168,76,.18);
+  --germ-c:#5EAD56;--brit-c:#4C8BC9;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC',serif;background:var(--bg);color:var(--parch-d);min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%,rgba(139,26,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%,rgba(26,58,139,.07) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px),
+    repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px);
+}
+
+/* ── HEADER ── */
+#site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,3,1,.96);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:62px;
+}
+.site-logo{font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold);letter-spacing:3px;text-shadow:0 0 20px rgba(201,168,76,.4);white-space:nowrap;}
+.site-logo span{font-size:11px;color:var(--parch-dim);letter-spacing:5px;display:block;margin-top:1px;}
+.header-nav{display:flex;gap:4px;align-items:center;}
+.hn-btn{padding:6px 14px;background:transparent;border:1px solid transparent;color:var(--parch-dim);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.hn-btn:hover,.hn-btn.active{color:var(--gold);border-color:var(--border);background:var(--gold-faint);}
+
+/* ── HERO ── */
+#hero{position:relative;overflow:hidden;padding:70px 40px 60px;text-align:center;border-bottom:1px solid var(--border);}
+#hero-canvas{position:absolute;inset:0;opacity:.18;pointer-events:none;}
+.hero-label{font-size:10px;color:var(--gold-d);letter-spacing:8px;margin-bottom:16px;font-family:'Cinzel',serif;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:52px;color:var(--gold);letter-spacing:6px;animation:glow 3s ease-in-out infinite;}
+@keyframes glow{0%,100%{text-shadow:0 0 30px rgba(201,168,76,.4);}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 100px rgba(201,168,76,.3);}}
+.hero-sub{font-size:13px;color:var(--parch-dim);letter-spacing:7px;margin:10px 0 30px;font-family:'Cinzel',serif;}
+.hero-desc{max-width:620px;margin:0 auto;font-size:14px;line-height:2;color:var(--parch-d);}
+.hero-divider{width:300px;height:1px;margin:30px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;}
+.hero-divider::before{content:'◆';position:absolute;left:50%;top:-8px;transform:translateX(-50%);color:var(--gold);font-size:13px;}
+.hero-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.hero-badge{padding:6px 16px;border:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);background:rgba(0,0,0,.3);}
+
+/* ── 站点导航 ── */
+.site-navbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:16px 30px;background:rgba(6,3,1,.92);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.site-navbar a{padding:10px 20px;background:rgba(14,6,1,.88);border:1px solid var(--gold-d);color:var(--parch-d);text-decoration:none;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;transition:all .2s;}
+.site-navbar a:hover,.site-navbar a.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 30px;position:relative;z-index:1;}
+.section-block{padding:56px 0;border-bottom:1px solid var(--border);}
+.section-block:last-child{border-bottom:none;}
+.sec-label{font-size:9px;color:var(--gold-d);letter-spacing:6px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.sec-title{font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
+.sec-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:28px;max-width:700px;}
+
+/* ── TIP BOX ── */
+.tip-box{display:flex;gap:12px;align-items:flex-start;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);padding:12px 16px;margin:16px 0;}
+.tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tip-text{font-size:12px;line-height:1.8;color:rgba(200,176,120,.75);}
+
+/* ══════════ 游戏大厅 ══════════ */
+
+/* ── 步骤指示器 ── */
+.lobby-steps{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;margin-bottom:40px;flex-wrap:wrap;
+}
+.step{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;
+  border:1px solid var(--border);
+  background:rgba(8,3,0,.9);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--parch-dim);transition:all .3s;cursor:pointer;
+  position:relative;
+}
+.step.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+.step.done{border-color:var(--germ-c);color:var(--germ-c);background:rgba(94,173,86,.06);}
+.step-num{
+  width:22px;height:22px;border:1px solid;border-radius:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;
+}
+.step.active .step-num{border-color:var(--gold);color:var(--gold);}
+.step.done .step-num{border-color:var(--germ-c);color:var(--germ-c);}
+.step:not(:last-child)::after{
+  content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  width:0;height:0;
+  border-top:8px solid transparent;border-bottom:8px solid transparent;
+  border-left:8px solid rgba(201,168,76,.18);
+  z-index:2;
+}
+.step-arrow{color:var(--gold-d);padding:0 4px;font-size:12px;}
+
+/* ── 模式选择 ── */
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:32px;}
+.mode-card{
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);padding:22px 18px;
+  cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+  text-align:center;
+}
+.mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.mode-card:hover,.mode-card.selected{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.mode-card:hover::before,.mode-card.selected::before{opacity:1;}
+.mode-card.selected{box-shadow:0 0 20px rgba(201,168,76,.1);}
+.mode-icon-big{font-size:32px;margin-bottom:12px;display:block;}
+.mode-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:6px;}
+.mode-sub{font-size:10px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;margin-bottom:10px;}
+.mode-desc{font-size:11px;color:var(--parch-dim);line-height:1.7;}
+.mode-badge{
+  display:inline-block;margin-top:10px;padding:2px 8px;
+  font-size:9px;letter-spacing:2px;font-family:'Cinzel',serif;
+  border:1px solid var(--gold-d);color:var(--gold-d);
+}
+.mode-card.selected .mode-badge{border-color:var(--gold);color:var(--gold);}
+.mode-check{
+  position:absolute;top:10px;right:10px;
+  width:18px;height:18px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:transparent;transition:all .25s;
+}
+.mode-card.selected .mode-check{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.1);}
+
+/* ── 阵营选择 ── */
+.faction-pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px;}
+.faction-pick{
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);
+  cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+}
+.faction-pick:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,0,0,.5);}
+.faction-pick.selected-roman{border-color:rgba(139,26,26,.8);box-shadow:0 0 24px rgba(139,26,26,.15);}
+.faction-pick.selected-gaul{border-color:rgba(26,58,139,.8);box-shadow:0 0 24px rgba(26,58,139,.15);}
+.faction-pick.selected-germ{border-color:rgba(94,173,86,.8);box-shadow:0 0 24px rgba(94,173,86,.15);}
+.faction-pick.selected-brit{border-color:rgba(76,139,201,.8);box-shadow:0 0 24px rgba(76,139,201,.15);}
+.fp-color-bar{height:3px;width:100%;}
+.fp-color-bar.roman{background:linear-gradient(90deg,var(--roman),transparent);}
+.fp-color-bar.gaul{background:linear-gradient(90deg,var(--gaul),transparent);}
+.fp-color-bar.germ{background:linear-gradient(90deg,var(--germ-c),transparent);}
+.fp-color-bar.brit{background:linear-gradient(90deg,var(--brit-c),transparent);}
+.fp-body{padding:20px 16px;text-align:center;}
+.fp-icon{font-size:34px;display:block;margin-bottom:10px;}
+.fp-name{font-family:'Cinzel Decorative',serif;font-size:14px;letter-spacing:2px;margin-bottom:4px;}
+.fp-name.roman{color:#E07070;}
+.fp-name.gaul{color:#7090DD;}
+.fp-name.germ{color:#80CC70;}
+.fp-name.brit{color:#70AADD;}
+.fp-sub{font-size:9px;letter-spacing:4px;color:var(--gold-d);font-family:'Cinzel',serif;margin-bottom:12px;}
+.fp-trait{
+  display:inline-block;padding:3px 10px;
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;
+  border:1px solid;margin-bottom:10px;
+}
+.fp-trait.roman{color:#E07070;border-color:rgba(139,26,26,.4);}
+.fp-trait.gaul{color:#7090DD;border-color:rgba(26,58,139,.4);}
+.fp-trait.germ{color:#80CC70;border-color:rgba(94,173,86,.4);}
+.fp-trait.brit{color:#70AADD;border-color:rgba(76,139,201,.4);}
+.fp-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;}
+.fp-stat{background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.08);padding:5px 4px;text-align:center;}
+.fp-stat-label{font-size:8px;letter-spacing:1px;color:var(--gold-d);font-family:'Cinzel',serif;display:block;}
+.fp-stat-val{font-size:11px;color:var(--parch);font-family:'Cinzel',serif;}
+.fp-desc{font-size:11px;color:var(--parch-dim);line-height:1.7;}
+.fp-selected-badge{
+  display:none;position:absolute;top:8px;right:8px;
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;
+  padding:2px 6px;background:rgba(201,168,76,.15);border:1px solid var(--gold);color:var(--gold);
+}
+.faction-pick[class*="selected"] .fp-selected-badge{display:block;}
+
+/* ── 游戏启动面板 ── */
+.launch-panel{
+  background:linear-gradient(135deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);
+  padding:28px 30px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.launch-summary{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+.launch-item{text-align:center;}
+.launch-item-label{font-size:9px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;display:block;margin-bottom:4px;}
+.launch-item-val{font-family:'Cinzel',serif;font-size:14px;color:var(--parch);letter-spacing:1px;}
+.launch-divider{width:1px;height:40px;background:var(--border);}
+.launch-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.launch-btn{
+  padding:13px 32px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;
+  border:1px solid;color:var(--parch);background:rgba(18,8,2,.9);
+  cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block;
+}
+.launch-btn.primary{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold);}
+.launch-btn.primary:hover{background:rgba(201,168,76,.2);box-shadow:0 0 20px rgba(201,168,76,.15);transform:scale(1.03);}
+.launch-btn.secondary{border-color:var(--gold-d);color:var(--parch-dim);}
+.launch-btn.secondary:hover{border-color:var(--gold);color:var(--parch);}
+
+/* ── STATUS BAR ── */
+.status-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(6,3,1,.95);border:1px solid var(--border);
+  border-bottom:none;padding:10px 20px;font-size:12px;
+  flex-wrap:wrap;gap:8px;
+}
+.status-item{display:flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.status-dot.green{background:#5EAD56;animation:pulse 2s infinite;}
+.status-dot.amber{background:var(--gold);}
+.status-dot.red{background:#cc4444;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(94,173,86,.4);}50%{opacity:.7;box-shadow:0 0 0 4px rgba(94,173,86,0);}}
+.status-val{color:var(--gold);font-family:'Cinzel Decorative',serif;font-size:13px;}
+.fullscreen-btn{
+  padding:6px 14px;background:transparent;border:1px solid var(--gold-d);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--parch-dim);cursor:pointer;transition:all .2s;
+}
+.fullscreen-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── GAME FRAME ── */
+.game-frame-wrap{
+  width:100%;height:75vh;min-height:500px;
+  border:1px solid var(--border);border-top:none;
+  background:#000;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+.game-frame-wrap iframe{width:100%;height:100%;border:none;display:block;}
+.game-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(4,2,0,.96);z-index:10;
+  transition:opacity .4s;
+}
+.game-overlay.hidden{opacity:0;pointer-events:none;}
+.overlay-logo{font-family:'Cinzel Decorative',serif;font-size:40px;color:var(--gold);letter-spacing:4px;margin-bottom:8px;text-shadow:0 0 30px rgba(201,168,76,.5);}
+.overlay-sub{font-size:11px;letter-spacing:6px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-bottom:40px;}
+.overlay-start-btn{
+  padding:16px 60px;background:rgba(201,168,76,.1);
+  border:1px solid var(--gold);font-family:'Cinzel',serif;
+  font-size:14px;letter-spacing:4px;color:var(--gold);
+  cursor:pointer;transition:all .3s;
+  animation:btnpulse 2.5s ease-in-out infinite;
+}
+.overlay-start-btn:hover{background:rgba(201,168,76,.2);box-shadow:0 0 30px rgba(201,168,76,.2);transform:scale(1.04);animation:none;}
+@keyframes btnpulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3);}50%{box-shadow:0 0 20px 4px rgba(201,168,76,.1);}}
+.overlay-hint{font-size:10px;letter-spacing:3px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-top:20px;opacity:.6;}
+.overlay-sel-summary{
+  display:flex;gap:20px;margin-bottom:36px;flex-wrap:wrap;justify-content:center;
+}
+.oss-item{text-align:center;}
+.oss-label{font-size:9px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;display:block;margin-bottom:4px;}
+.oss-val{font-family:'Cinzel',serif;font-size:12px;color:var(--parch);letter-spacing:1px;}
+
+/* ── 快速操作栏（游戏下方） ── */
+.quick-bar{
+  display:flex;gap:8px;flex-wrap:wrap;
+  background:rgba(6,3,1,.9);border:1px solid var(--border);border-top:none;
+  padding:10px 16px;
+}
+.qb-btn{
+  padding:6px 14px;background:rgba(0,0,0,.4);border:1px solid var(--border);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--parch-dim);cursor:pointer;transition:all .2s;
+}
+.qb-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── 最近战局 ── */
+.recent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.recent-card{
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);padding:16px 18px;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.recent-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.recent-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);}
+.recent-card:hover::before{opacity:1;}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.rc-mode{font-size:9px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;}
+.rc-result{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;}
+.rc-result.win{color:var(--germ-c);}
+.rc-result.lose{color:#cc4444;}
+.rc-result.draw{color:var(--gold-d);}
+.rc-factions{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.rc-pill{padding:2px 9px;border:1px solid;font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;}
+.rc-pill.roman{color:#E07070;border-color:rgba(139,26,26,.4);}
+.rc-pill.gaul{color:#7090DD;border-color:rgba(26,58,139,.4);}
+.rc-pill.germ{color:#80CC70;border-color:rgba(94,173,86,.4);}
+.rc-pill.brit{color:#70AADD;border-color:rgba(76,139,201,.4);}
+.rc-vs{color:var(--gold-d);font-size:10px;font-family:'Cinzel',serif;}
+.rc-meta{font-size:11px;color:var(--parch-dim);}
+.rc-turns{font-family:'Cinzel',serif;font-size:11px;color:var(--gold-d);margin-top:4px;}
+
+/* ── 键盘快捷键 ── */
+.key-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.key-grid{grid-template-columns:1fr;}}
+.key-section{background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));border:1px solid var(--border);padding:18px 20px;}
+.key-sec-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.key-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:11px;color:var(--parch-dim);}
+.key{display:inline-block;min-width:34px;text-align:center;background:rgba(0,0,0,.5);border:1px solid rgba(201,168,76,.3);border-radius:2px;padding:2px 8px;font-size:11px;color:var(--gold);font-family:monospace;font-weight:bold;flex-shrink:0;}
+
+/* ── FOOTER ── */
+footer{padding:40px 32px;text-align:center;border-top:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:1;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);letter-spacing:4px;margin-bottom:8px;text-shadow:0 0 20px rgba(201,168,76,.3);}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+.footer-links a{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--parch-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:10px;letter-spacing:4px;color:rgba(200,176,120,.25);font-family:'Cinzel',serif;margin-top:16px;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+@media(max-width:600px){
+  .hero-title{font-size:32px;}
+  .site-logo{font-size:13px;}
+  #site-header{padding:0 16px;}
+  .page-wrap{padding:0 16px;}
+  .header-nav{display:none;}
+  .site-navbar{padding:12px 16px;}
+  .site-navbar a{padding:8px 12px;font-size:11px;}
+  .game-frame-wrap{height:60vh;}
+  .launch-panel{flex-direction:column;}
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="site-logo">
+    CAESAR
+    <span>凯撒：高卢战记 · 在线游戏</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#lobby"   class="hn-btn">游戏大厅</a>
+    <a href="#arena"   class="hn-btn">战场</a>
+    <a href="#keys"    class="hn-btn">操作指引</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-label">ALEA IACTA EST · 骰子已经投出</div>
+  <h1 class="hero-title">CAESAR</h1>
+  <div class="hero-sub">凯撒：高卢战记 · 在线出征</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    《凯撒：高卢战记》是一款以公元前1世纪罗马征服高卢为背景的<strong style="color:var(--gold-l)">回合制六角格战棋</strong>策略游戏。
+    玩家指挥四大历史势力，在等距3D战场上展开战术较量，还原凯撒《高卢战记》中的六大历史战役。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">⚔ 回合制战棋</span>
+    <span class="hero-badge">🗺 六大历史战役</span>
+    <span class="hero-badge">🦅 四大阵营</span>
+    <span class="hero-badge">🌐 多人联机</span>
+    <span class="hero-badge">🌫 迷雾战争模式</span>
+  </div>
+</section>
+
+<!-- 站点导航 -->
+<nav class="site-navbar">
+  <a href="index.html">首页</a>
+  <a href="play.html" class="active">在线游戏</a>
+  <a href="expansion.html">扩展包</a>
+  <a href="help.html">帮助中心</a>
+  <a href="community.html">玩家社区</a>
+  <a href="download.html">下载</a>
+</nav>
+
+<main class="page-wrap">
+
+<!-- ══ 游戏大厅 ══ -->
+<section id="lobby" class="section-block">
+  <div class="sec-label">ATRIUM BELLI · 游戏大厅</div>
+  <h2 class="sec-title">出征准备</h2>
+  <p class="sec-desc">选择你的战斗模式与阵营，部署完毕后即可踏入战场。每一个决策都从这里开始。</p>
+
+  <!-- 步骤指示器 -->
+  <div class="lobby-steps">
+    <div class="step active" id="step1" onclick="goStep(1)">
+      <div class="step-num">1</div>
+      <span>选择模式</span>
+    </div>
+    <div class="step" id="step2" onclick="goStep(2)">
+      <div class="step-num">2</div>
+      <span>选择阵营</span>
+    </div>
+    <div class="step" id="step3" onclick="goStep(3)">
+      <div class="step-num">3</div>
+      <span>出征</span>
+    </div>
+  </div>
+
+  <!-- 第1步：模式选择 -->
+  <div id="panel-1">
+    <div class="mode-grid">
+
+      <div class="mode-card selected" onclick="selectMode(this,'单人战役','⚔')" data-mode="campaign">
+        <div class="mode-check">✓</div>
+        <span class="mode-icon-big">📜</span>
+        <div class="mode-name">单人战役</div>
+        <div class="mode-sub">CAMPAGNA</div>
+        <p class="mode-desc">跟随凯撒的脚步，依次征服六大历史战场。包含丰富的历史注释与战役叙事。</p>
+        <div class="mode-badge">6 场历史战役</div>
+      </div>
+
+      <div class="mode-card" onclick="selectMode(this,'随机对战','🎲')" data-mode="skirmish">
+        <div class="mode-check">✓</div>
+        <span class="mode-icon-big">🎲</span>
+        <div class="mode-name">随机对战</div>
+        <div class="mode-sub">PROELIUM FORTUITO</div>
+        <p class="mode-desc">随机生成地图，与AI展开无限制的单局对战。每一局都是全新的战略挑战。</p>
+        <div class="mode-badge">无尽重玩价值</div>
+      </div>
+
+      <div class="mode-card" onclick="selectMode(this,'三人混战','⚡')" data-mode="ffa">
+        <div class="mode-check">✓</div>
+        <span class="mode-icon-big">⚡</span>
+        <div class="mode-name">三人混战</div>
+        <div class="mode-sub">FFA · 3 玩家</div>
+        <p class="mode-desc">三支势力同场厮杀，任何外交都是欺骗。消灭其余两方才是唯一的胜利。</p>
+        <div class="mode-badge">联机 · 3人</div>
+      </div>
+
+      <div class="mode-card" onclick="selectMode(this,'四人2v2','🏆')" data-mode="team">
+        <div class="mode-check">✓</div>
+        <span class="mode-icon-big">🏆</span>
+        <div class="mode-name">四人 2v2</div>
+        <div class="mode-sub">TEAM · 4 玩家</div>
+        <p class="mode-desc">两队各二人，共享视野，协同作战。队友的失守就是你的溃败。</p>
+        <div class="mode-badge">联机 · 4人</div>
+      </div>
+
+    </div>
+
+    <div style="text-align:right;margin-top:8px;">
+      <button class="launch-btn primary" onclick="goStep(2)" style="font-size:11px;padding:10px 28px;">选择阵营 →</button>
+    </div>
+  </div>
+
+  <!-- 第2步：阵营选择 -->
+  <div id="panel-2" style="display:none;">
+    <div class="faction-pick-grid">
+
+      <div class="faction-pick selected-roman" id="fp-roman" onclick="selectFaction('roman')">
+        <div class="fp-color-bar roman"></div>
+        <div class="fp-body">
+          <span class="fp-selected-badge">已选择</span>
+          <span class="fp-icon">🦅</span>
+          <div class="fp-name roman">罗马共和国</div>
+          <div class="fp-sub">RES PUBLICA ROMANA</div>
+          <span class="fp-trait roman">韧性</span>
+          <div class="fp-stats">
+            <div class="fp-stat"><span class="fp-stat-label">攻击</span><span class="fp-stat-val">★★★☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">防御</span><span class="fp-stat-val">★★★★</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">机动</span><span class="fp-stat-val">★★☆☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">难度</span><span class="fp-stat-val">入门</span></div>
+          </div>
+          <p class="fp-desc">韧性之师，反击+1，每回合自动回血。以阵地消耗碾压一切。</p>
+        </div>
+      </div>
+
+      <div class="faction-pick" id="fp-gaul" onclick="selectFaction('gaul')">
+        <div class="fp-color-bar gaul"></div>
+        <div class="fp-body">
+          <span class="fp-selected-badge">已选择</span>
+          <span class="fp-icon">🐗</span>
+          <div class="fp-name gaul">高卢联盟</div>
+          <div class="fp-sub">FOEDERATIO GALLICA</div>
+          <span class="fp-trait gaul">血性</span>
+          <div class="fp-stats">
+            <div class="fp-stat"><span class="fp-stat-label">攻击</span><span class="fp-stat-val">★★★★</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">防御</span><span class="fp-stat-val">★★☆☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">机动</span><span class="fp-stat-val">★★★☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">难度</span><span class="fp-stat-val">普通</span></div>
+          </div>
+          <p class="fp-desc">进攻有概率触发2倍暴击，濒死反击尤为凶猛。永不停歇地进攻。</p>
+        </div>
+      </div>
+
+      <div class="faction-pick" id="fp-germ" onclick="selectFaction('germ')">
+        <div class="fp-color-bar germ"></div>
+        <div class="fp-body">
+          <span class="fp-selected-badge">已选择</span>
+          <span class="fp-icon">🪓</span>
+          <div class="fp-name germ">日耳曼部落</div>
+          <div class="fp-sub">GERMANI TRIBUS</div>
+          <span class="fp-trait germ">狂怒</span>
+          <div class="fp-stats">
+            <div class="fp-stat"><span class="fp-stat-label">攻击</span><span class="fp-stat-val">★★★★</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">防御</span><span class="fp-stat-val">★★☆☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">机动</span><span class="fp-stat-val">★★★★</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">难度</span><span class="fp-stat-val">进阶</span></div>
+          </div>
+          <p class="fp-desc">击杀后回血并获攻击加成，越杀越强。密林中如鱼得水。</p>
+        </div>
+      </div>
+
+      <div class="faction-pick" id="fp-brit" onclick="selectFaction('brit')">
+        <div class="fp-color-bar brit"></div>
+        <div class="fp-body">
+          <span class="fp-selected-badge">已选择</span>
+          <span class="fp-icon">🏹</span>
+          <div class="fp-name brit">不列颠部落</div>
+          <div class="fp-sub">BRITANNI TRIBUS</div>
+          <span class="fp-trait brit">战车战术</span>
+          <div class="fp-stats">
+            <div class="fp-stat"><span class="fp-stat-label">攻击</span><span class="fp-stat-val">★★★☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">防御</span><span class="fp-stat-val">★★★☆</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">机动</span><span class="fp-stat-val">★★★★</span></div>
+            <div class="fp-stat"><span class="fp-stat-label">难度</span><span class="fp-stat-val">进阶</span></div>
+          </div>
+          <p class="fp-desc">战车无视地形防御，德鲁伊守护全军。机动与防御并重。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:10px;">
+      <button class="launch-btn secondary" onclick="goStep(1)" style="font-size:11px;padding:10px 24px;">← 返回</button>
+      <button class="launch-btn primary" onclick="goStep(3)" style="font-size:11px;padding:10px 28px;">确认出征 →</button>
+    </div>
+  </div>
+
+  <!-- 第3步：确认出征 -->
+  <div id="panel-3" style="display:none;">
+    <div class="launch-panel">
+      <div class="launch-summary">
+        <div class="launch-item">
+          <span class="launch-item-label">游戏模式</span>
+          <span class="launch-item-val" id="summary-mode">单人战役</span>
+        </div>
+        <div class="launch-divider"></div>
+        <div class="launch-item">
+          <span class="launch-item-label">选择阵营</span>
+          <span class="launch-item-val" id="summary-faction">🦅 罗马</span>
+        </div>
+        <div class="launch-divider"></div>
+        <div class="launch-item">
+          <span class="launch-item-label">游戏版本</span>
+          <span class="launch-item-val">v3.6</span>
+        </div>
+        <div class="launch-divider"></div>
+        <div class="launch-item">
+          <span class="launch-item-label">当前在线</span>
+          <span class="launch-item-val" style="color:var(--germ-c);">147 人</span>
+        </div>
+      </div>
+      <div class="launch-btns">
+        <button class="launch-btn secondary" onclick="goStep(2)" style="font-size:11px;padding:10px 20px;">← 修改</button>
+        <button class="launch-btn primary" onclick="launchGame()">⚔ 立即出征</button>
+      </div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-icon">💡</div>
+      <div class="tip-text">游戏将在下方战场区直接加载。建议按 <strong>F11</strong> 切换全屏获得最佳体验。多人联机模式需等待其他玩家就绪，预计等待 30 秒以内。</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ 战场 ══ -->
+<section id="arena" class="section-block">
+  <div class="sec-label">CAMPUS MARTIUS · 战场</div>
+  <h2 class="sec-title">战场</h2>
+  <p class="sec-desc">战场已就绪。在下方直接开始游戏，或在大厅完成配置后出征。</p>
+
+  <!-- 状态栏 -->
+  <div class="status-bar">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div class="status-item">
+        <div class="status-dot green"></div>
+        <span>状态：</span><span class="status-val" id="game-status">准备就绪</span>
+      </div>
+      <div class="status-item">
+        <div class="status-dot amber"></div>
+        <span>模式：</span><span id="status-mode" style="color:var(--parch);">单人战役</span>
+      </div>
+      <div class="status-item">
+        <div class="status-dot amber"></div>
+        <span>阵营：</span><span id="status-faction" style="color:var(--parch);">🦅 罗马</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);">F11 全屏</span>
+      <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ 全屏</button>
+    </div>
+  </div>
+
+  <!-- 游戏框体 -->
+  <div class="game-frame-wrap" id="game-wrap">
+    <!-- 启动遮罩 -->
+    <div class="game-overlay" id="game-overlay">
+      <div class="overlay-logo">CAESAR</div>
+      <div class="overlay-sub">凯撒：高卢战记</div>
+      <div class="overlay-sel-summary">
+        <div class="oss-item">
+          <span class="oss-label">模式</span>
+          <span class="oss-val" id="ov-mode">单人战役</span>
+        </div>
+        <div style="width:1px;height:30px;background:var(--border);"></div>
+        <div class="oss-item">
+          <span class="oss-label">阵营</span>
+          <span class="oss-val" id="ov-faction">🦅 罗马共和国</span>
+        </div>
+      </div>
+      <button class="overlay-start-btn" onclick="launchGame()">⚔ &nbsp; 出征</button>
+      <div class="overlay-hint">点击出征 · 或在大厅完成配置后再出发</div>
+    </div>
+    <iframe src="game/caesar_gaul_v36.html" id="game-iframe" allowfullscreen></iframe>
+  </div>
+
+  <!-- 快速操作栏 -->
+  <div class="quick-bar">
+    <button class="qb-btn" onclick="restartGame()">↺ 重新开始</button>
+    <button class="qb-btn" onclick="goStep(1);document.getElementById('lobby').scrollIntoView({behavior:'smooth'})">⚙ 更换配置</button>
+    <button class="qb-btn" onclick="window.open('help.html')">❓ 操作指引</button>
+    <button class="qb-btn" onclick="window.open('community.html')">📜 战术社区</button>
+    <button class="qb-btn" onclick="toggleFullscreen()">⛶ 全屏模式</button>
+  </div>
+
+</section>
+
+<!-- ══ 操作指引 ══ -->
+<section id="keys" class="section-block">
+  <div class="sec-label">IMPERATA · 操作指引</div>
+  <h2 class="sec-title">战场指令速查</h2>
+  <p class="sec-desc">熟悉快捷键是优秀统帅的必备素质。以下为全部键盘指令，更多详情请参阅帮助中心。</p>
+
+  <div class="key-grid">
+    <div class="key-section">
+      <div class="key-sec-title">🖱 鼠标操作</div>
+      <div class="key-row"><span class="key">左键</span><span>选中己方单位，高亮可移动格（绿）与攻击目标（红）</span></div>
+      <div class="key-row"><span class="key">左键</span><span>点绿色格移动 · 点红色敌军发起攻击</span></div>
+      <div class="key-row"><span class="key">拖拽</span><span>平移地图视野</span></div>
+      <div class="key-row"><span class="key">滚轮</span><span>缩放地图</span></div>
+      <div class="key-row"><span class="key">悬停</span><span>显示单位属性提示</span></div>
+    </div>
+    <div class="key-section">
+      <div class="key-sec-title">⌨ 键盘快捷键</div>
+      <div class="key-row"><span class="key">N</span><span>结束当前回合</span></div>
+      <div class="key-row"><span class="key">Esc</span><span>取消当前选中</span></div>
+      <div class="key-row"><span class="key">W / ↑</span><span>向上平移地图</span></div>
+      <div class="key-row"><span class="key">S / ↓</span><span>向下平移地图</span></div>
+      <div class="key-row"><span class="key">A / ←</span><span>向左平移地图</span></div>
+      <div class="key-row"><span class="key">D / →</span><span>向右平移地图</span></div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:20px;align-items:flex-start;">
+    <div class="tip-icon">💡</div>
+    <div class="tip-text">
+      <b>单位状态：</b>绿色高亮表示仍可行动，变暗表示本回合已行动完毕。<br>
+      <b>升级时机：</b>尽量在前几回合完成核心升级，后期差距会越来越大。<br>
+      <b>AI 回合：</b>显示「正在思考…」时不可操作，稍等片刻即可。<br>
+      <b>联机模式：</b>客机操作实时同步给主机广播，延迟取决于网络质量。
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">CAESAR</div>
+  <p style="font-size:11px;letter-spacing:4px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-bottom:4px;">凯撒：高卢战记</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="play.html">在线游戏</a>
+    <a href="expansion.html">扩展包</a>
+    <a href="help.html">帮助中心</a>
+    <a href="community.html">玩家社区</a>
+    <a href="download.html">下载</a>
+  </div>
+  <div class="footer-copy">CAESAR · BELLUM GALLICUM © 2024 ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+/* ── Hero Canvas ─────────────────────────── */
+function initHeroCanvas(){
+  const cvs=document.getElementById('hero-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H;
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  const stars=Array.from({length:120},()=>({x:Math.random(),y:Math.random(),s:Math.random()*.8+.2,v:Math.random()*.0002+.0001,a:Math.random()}));
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{s.a+=s.v;const alpha=(.3+.7*Math.abs(Math.sin(s.a)))*.6;ctx.fillStyle=`rgba(201,168,76,${alpha})`;ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();});
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+/* ── Nav Highlight ───────────────────────── */
+function initNavHighlight(){
+  const sections=document.querySelectorAll('section[id]');
+  const btns=document.querySelectorAll('.hn-btn');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){btns.forEach(b=>b.classList.remove('active'));const btn=document.querySelector(`.hn-btn[href="#${e.target.id}"]`);if(btn)btn.classList.add('active');}});
+  },{threshold:0.3});
+  sections.forEach(s=>obs.observe(s));
+}
+
+/* ── Lobby State ─────────────────────────── */
+let selectedMode = '单人战役';
+let selectedModeIcon = '⚔';
+let selectedFactionKey = 'roman';
+const factionNames = {roman:'🦅 罗马共和国', gaul:'🐗 高卢联盟', germ:'🪓 日耳曼部落', brit:'🏹 不列颠部落'};
+const factionShort = {roman:'🦅 罗马', gaul:'🐗 高卢', germ:'🪓 日耳曼', brit:'🏹 不列颠'};
+
+function goStep(n){
+  // update step indicators
+  for(let i=1;i<=3;i++){
+    const s=document.getElementById('step'+i);
+    s.classList.remove('active','done');
+    if(i<n) s.classList.add('done');
+    else if(i===n) s.classList.add('active');
+  }
+  // show/hide panels
+  for(let i=1;i<=3;i++){
+    const p=document.getElementById('panel-'+i);
+    if(p) p.style.display=(i===n)?'block':'none';
+  }
+  updateSummary();
+}
+
+function selectMode(card, name, icon){
+  document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedMode = name;
+  selectedModeIcon = icon;
+  updateSummary();
+}
+
+function selectFaction(key){
+  ['roman','gaul','germ','brit'].forEach(k=>{
+    document.getElementById('fp-'+k).className='faction-pick';
+  });
+  document.getElementById('fp-'+key).className='faction-pick selected-'+key;
+  selectedFactionKey = key;
+  updateSummary();
+}
+
+function updateSummary(){
+  const modeEl = document.getElementById('summary-mode');
+  const factEl = document.getElementById('summary-faction');
+  const ovMode = document.getElementById('ov-mode');
+  const ovFact = document.getElementById('ov-faction');
+  const stMode = document.getElementById('status-mode');
+  const stFact = document.getElementById('status-faction');
+  if(modeEl) modeEl.textContent = selectedMode;
+  if(factEl) factEl.textContent = factionShort[selectedFactionKey];
+  if(ovMode) ovMode.textContent = selectedMode;
+  if(ovFact) ovFact.textContent = factionNames[selectedFactionKey];
+  if(stMode) stMode.textContent = selectedMode;
+  if(stFact) stFact.textContent = factionShort[selectedFactionKey];
+}
+
+function launchGame(){
+  const overlay = document.getElementById('game-overlay');
+  overlay.classList.add('hidden');
+  document.getElementById('game-status').textContent = '游戏中';
+  // scroll to arena
+  document.getElementById('arena').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>overlay.style.display='none', 500);
+}
+
+function restartGame(){
+  const overlay = document.getElementById('game-overlay');
+  overlay.style.display='flex';
+  overlay.classList.remove('hidden');
+  document.getElementById('game-status').textContent = '准备就绪';
+  const iframe = document.getElementById('game-iframe');
+  iframe.src = iframe.src;
+}
+
+function toggleFullscreen(){
+  const wrap = document.getElementById('game-wrap');
+  if(!document.fullscreenElement){
+    wrap.requestFullscreen && wrap.requestFullscreen();
+  } else {
+    document.exitFullscreen && document.exitFullscreen();
+  }
+}
+
+window.addEventListener('load',()=>{
+  initHeroCanvas();
+  initNavHighlight();
+  updateSummary();
+});
+</script>
+</body>
+</html>

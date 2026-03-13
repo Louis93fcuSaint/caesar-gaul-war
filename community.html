@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>玩家社区 - 凯撒：高卢战记</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#7A5810;--gold-faint:rgba(201,168,76,.12);
+  --parch:#F4E8C1;--parch-d:#C8B07A;--parch-dim:rgba(200,176,120,.55);
+  --bg:#080503;--roman:#8B1A1A;--gaul:#1A3A8B;
+  --border:rgba(201,168,76,.18);
+  --germ-c:#5EAD56;--brit-c:#4C8BC9;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif SC',serif;background:var(--bg);color:var(--parch-d);min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%,rgba(139,26,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%,rgba(26,58,139,.07) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px),
+    repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px);
+}
+
+/* ── HEADER ── */
+#site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,3,1,.96);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:62px;
+}
+.site-logo{font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold);letter-spacing:3px;text-shadow:0 0 20px rgba(201,168,76,.4);white-space:nowrap;}
+.site-logo span{font-size:11px;color:var(--parch-dim);letter-spacing:5px;display:block;margin-top:1px;}
+.header-nav{display:flex;gap:4px;align-items:center;}
+.hn-btn{padding:6px 14px;background:transparent;border:1px solid transparent;color:var(--parch-dim);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.hn-btn:hover,.hn-btn.active{color:var(--gold);border-color:var(--border);background:var(--gold-faint);}
+
+/* ── HERO ── */
+#hero{position:relative;overflow:hidden;padding:70px 40px 60px;text-align:center;border-bottom:1px solid var(--border);}
+#hero-canvas{position:absolute;inset:0;opacity:.18;pointer-events:none;}
+.hero-label{font-size:10px;color:var(--gold-d);letter-spacing:8px;margin-bottom:16px;font-family:'Cinzel',serif;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:52px;color:var(--gold);letter-spacing:6px;animation:glow 3s ease-in-out infinite;}
+@keyframes glow{0%,100%{text-shadow:0 0 30px rgba(201,168,76,.4);}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 100px rgba(201,168,76,.3);}}
+.hero-sub{font-size:13px;color:var(--parch-dim);letter-spacing:7px;margin:10px 0 30px;font-family:'Cinzel',serif;}
+.hero-desc{max-width:620px;margin:0 auto;font-size:14px;line-height:2;color:var(--parch-d);}
+.hero-divider{width:300px;height:1px;margin:30px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;}
+.hero-divider::before{content:'◆';position:absolute;left:50%;top:-8px;transform:translateX(-50%);color:var(--gold);font-size:13px;}
+.hero-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.hero-badge{padding:6px 16px;border:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);background:rgba(0,0,0,.3);}
+
+/* ── 站点导航 ── */
+.site-navbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:16px 30px;background:rgba(6,3,1,.92);border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.site-navbar a{padding:10px 20px;background:rgba(14,6,1,.88);border:1px solid var(--gold-d);color:var(--parch-d);text-decoration:none;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;transition:all .2s;}
+.site-navbar a:hover,.site-navbar a.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 30px;position:relative;z-index:1;}
+.section-block{padding:56px 0;border-bottom:1px solid var(--border);}
+.section-block:last-child{border-bottom:none;}
+.sec-label{font-size:9px;color:var(--gold-d);letter-spacing:6px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.sec-title{font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
+.sec-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:28px;max-width:700px;}
+
+/* ── 通用卡片 ── */
+.card{background:linear-gradient(155deg,rgba(18,8,2,.98),rgba(8,3,0,.98));border:1px solid var(--border);padding:22px 20px;transition:all .28s;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,0,0,.5);}
+.card:hover::before{opacity:1;}
+.card-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:10px;}
+.card-text{font-size:12px;line-height:1.9;color:var(--parch-dim);}
+
+/* ── TIP BOX ── */
+.tip-box{display:flex;gap:12px;align-items:flex-start;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);padding:12px 16px;margin:16px 0;}
+.tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tip-text{font-size:12px;line-height:1.8;color:rgba(200,176,120,.75);}
+
+/* ══════════ 论坛区 ══════════ */
+.forum-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;}
+@media(max-width:800px){.forum-layout{grid-template-columns:1fr;}}
+
+/* 分类标签 */
+.forum-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+.ftab{padding:7px 18px;background:rgba(0,0,0,.4);border:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);cursor:pointer;transition:all .2s;}
+.ftab:hover,.ftab.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* 帖子列表 */
+.post-list{display:flex;flex-direction:column;gap:2px;}
+.post-item{
+  background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));
+  border:1px solid rgba(201,168,76,.1);
+  border-left:3px solid transparent;
+  padding:14px 18px;
+  display:grid;grid-template-columns:1fr auto;align-items:start;gap:12px;
+  transition:all .22s;cursor:pointer;
+}
+.post-item:hover{border-color:rgba(201,168,76,.3);border-left-color:var(--gold);background:rgba(201,168,76,.04);}
+.post-item.pinned{border-left-color:var(--gold);}
+.post-item.hot{border-left-color:var(--roman);}
+.post-item.new{border-left-color:var(--germ-c);}
+.post-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;}
+.post-tag{font-size:9px;letter-spacing:2px;padding:1px 7px;border:1px solid;font-family:'Cinzel',serif;}
+.post-tag.strat{color:#C9A84C;border-color:rgba(201,168,76,.35);}
+.post-tag.report{color:#cc6666;border-color:rgba(139,26,26,.4);}
+.post-tag.discuss{color:#6688cc;border-color:rgba(26,58,139,.4);}
+.post-tag.bug{color:#88cc66;border-color:rgba(94,173,86,.4);}
+.post-tag.news{color:#66aacc;border-color:rgba(76,139,201,.4);}
+.post-pin{font-size:10px;color:var(--gold);letter-spacing:1px;}
+.post-title{font-size:13px;color:var(--parch);line-height:1.5;margin-bottom:5px;}
+.post-info{font-size:11px;color:var(--parch-dim);}
+.post-stats{text-align:right;flex-shrink:0;}
+.post-replies{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);display:block;line-height:1;}
+.post-replies-label{font-size:9px;letter-spacing:2px;color:var(--gold-d);font-family:'Cinzel',serif;}
+.post-views{font-size:10px;color:var(--parch-dim);margin-top:4px;}
+
+/* 发帖按钮 */
+.new-post-btn{
+  width:100%;padding:13px;background:rgba(201,168,76,.08);
+  border:1px solid var(--gold-d);font-family:'Cinzel',serif;
+  font-size:12px;letter-spacing:3px;color:var(--parch);
+  cursor:pointer;transition:all .25s;text-align:center;margin-bottom:16px;
+  text-decoration:none;display:block;
+}
+.new-post-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.14);}
+
+/* 侧边栏 */
+.sidebar-card{background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));border:1px solid var(--border);margin-bottom:16px;overflow:hidden;}
+.sidebar-head{padding:13px 16px;border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold);}
+.sidebar-body{padding:14px 16px;}
+
+/* 排行榜 */
+.rank-list{list-style:none;}
+.rank-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:12px;}
+.rank-item:last-child{border-bottom:none;}
+.rank-num{font-family:'Cinzel Decorative',serif;font-size:15px;width:20px;flex-shrink:0;}
+.rank-num.gold{color:var(--gold);}
+.rank-num.silver{color:#aaa;}
+.rank-num.bronze{color:#cd7f32;}
+.rank-num.other{color:var(--parch-dim);}
+.rank-name{flex:1;color:var(--parch);font-size:12px;}
+.rank-faction{font-size:9px;letter-spacing:2px;padding:1px 6px;border:1px solid;}
+.rank-faction.roman{color:#cc6666;border-color:rgba(139,26,26,.4);}
+.rank-faction.gaul{color:#6688cc;border-color:rgba(26,58,139,.4);}
+.rank-faction.germ{color:#88cc66;border-color:rgba(94,173,86,.4);}
+.rank-faction.brit{color:#66aacc;border-color:rgba(76,139,201,.4);}
+.rank-wins{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-d);}
+
+/* 在线玩家 */
+.online-dot{display:inline-block;width:7px;height:7px;background:#5EAD56;border-radius:50%;margin-right:6px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.online-num{font-family:'Cinzel Decorative',serif;font-size:28px;color:var(--gold);display:block;margin:6px 0;}
+.online-label{font-size:10px;letter-spacing:3px;color:var(--parch-dim);font-family:'Cinzel',serif;}
+
+/* 活跃玩家头像墙 */
+.avatar-wall{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.avatar{
+  width:34px;height:34px;
+  background:rgba(201,168,76,.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:all .2s;cursor:pointer;
+}
+.avatar:hover{border-color:var(--gold);transform:scale(1.12);}
+
+/* ══════════ 战报展示 ══════════ */
+.battle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;}
+.battle-card{background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));border:1px solid var(--border);overflow:hidden;transition:all .28s;position:relative;}
+.battle-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.battle-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.5);}
+.battle-card:hover::before{opacity:1;}
+.battle-banner{
+  width:100%;height:100px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.battle-banner.roman-win{background:linear-gradient(135deg,rgba(139,26,26,.2),rgba(8,3,0,.9));}
+.battle-banner.gaul-win{background:linear-gradient(135deg,rgba(26,58,139,.2),rgba(8,3,0,.9));}
+.battle-banner.germ-win{background:linear-gradient(135deg,rgba(94,173,86,.2),rgba(8,3,0,.9));}
+.battle-info{padding:16px 18px;}
+.battle-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:1px;margin-bottom:6px;}
+.battle-meta{font-size:11px;color:var(--parch-dim);margin-bottom:10px;}
+.battle-vs{display:flex;align-items:center;gap:8px;font-size:11px;}
+.faction-pill{padding:2px 10px;border:1px solid;font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;}
+.faction-pill.roman{color:#cc6666;border-color:rgba(139,26,26,.5);}
+.faction-pill.gaul{color:#6688cc;border-color:rgba(26,58,139,.5);}
+.faction-pill.germ{color:#88cc66;border-color:rgba(94,173,86,.5);}
+.faction-pill.brit{color:#66aacc;border-color:rgba(76,139,201,.5);}
+.vs-text{color:var(--gold-d);font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;}
+.battle-likes{font-size:11px;color:var(--parch-dim);margin-top:10px;}
+
+/* ══════════ 攻略区 ══════════ */
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;}
+.guide-card{background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));border:1px solid var(--border);padding:20px;transition:all .28s;position:relative;overflow:hidden;}
+.guide-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.guide-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,0,0,.5);}
+.guide-card:hover::before{opacity:1;}
+.guide-card.roman{border-left:3px solid var(--roman);}
+.guide-card.gaul{border-left:3px solid var(--gaul);}
+.guide-card.germ{border-left:3px solid var(--germ-c);}
+.guide-card.brit{border-left:3px solid var(--brit-c);}
+.guide-icon{font-size:24px;margin-bottom:10px;}
+.guide-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:6px;}
+.guide-author{font-size:10px;color:var(--gold-d);letter-spacing:2px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.guide-desc{font-size:12px;line-height:1.8;color:var(--parch-dim);margin-bottom:12px;}
+.guide-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.guide-tag{font-size:9px;letter-spacing:2px;padding:2px 8px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);color:var(--parch-dim);font-family:'Cinzel',serif;}
+.guide-footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(201,168,76,.08);}
+.guide-stats{font-size:11px;color:var(--parch-dim);}
+.guide-read-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold);border:1px solid var(--gold-d);padding:4px 12px;text-decoration:none;transition:all .2s;}
+.guide-read-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* ══════════ 更新日志 ══════════ */
+.changelog-list{display:flex;flex-direction:column;gap:0;}
+.cl-item{border:1px solid var(--border);border-top:none;padding:20px 22px;background:linear-gradient(155deg,rgba(14,6,1,.98),rgba(8,3,0,.98));transition:background .2s;}
+.cl-item:first-child{border-top:1px solid var(--border);}
+.cl-item:hover{background:rgba(201,168,76,.03);}
+.cl-header{display:flex;align-items:center;gap:14px;margin-bottom:12px;cursor:pointer;}
+.cl-ver{font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold);letter-spacing:2px;}
+.cl-date{font-size:10px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;}
+.cl-badge{font-size:9px;letter-spacing:2px;padding:2px 8px;border:1px solid;font-family:'Cinzel',serif;}
+.cl-badge.major{color:var(--gold);border-color:rgba(201,168,76,.4);}
+.cl-badge.patch{color:var(--parch-dim);border-color:var(--border);}
+.cl-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.cl-col-title{font-size:9px;letter-spacing:3px;color:var(--gold-d);font-family:'Cinzel',serif;margin-bottom:6px;}
+.cl-entries{list-style:none;}
+.cl-entries li{font-size:12px;color:var(--parch-dim);line-height:1.8;padding-left:12px;position:relative;}
+.cl-entries li::before{content:'▸';position:absolute;left:0;color:var(--gold-d);}
+.cl-entries li.new-feat::before{color:var(--germ-c);}
+.cl-entries li.fix::before{color:#cc6666;}
+
+/* ── FOOTER ── */
+footer{padding:40px 32px;text-align:center;border-top:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:1;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);letter-spacing:4px;margin-bottom:8px;text-shadow:0 0 20px rgba(201,168,76,.3);}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+.footer-links a{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--parch-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:10px;letter-spacing:4px;color:rgba(200,176,120,.25);font-family:'Cinzel',serif;margin-top:16px;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+@media(max-width:600px){
+  .hero-title{font-size:32px;}
+  .site-logo{font-size:13px;}
+  #site-header{padding:0 16px;}
+  .page-wrap{padding:0 16px;}
+  .header-nav{display:none;}
+  .site-navbar{padding:12px 16px;}
+  .site-navbar a{padding:8px 12px;font-size:11px;}
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="site-logo">
+    CAESAR
+    <span>凯撒：高卢战记 · 玩家社区</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#forum"     class="hn-btn">战术论坛</a>
+    <a href="#battles"   class="hn-btn">战报展示</a>
+    <a href="#guides"    class="hn-btn">攻略中心</a>
+    <a href="#changelog" class="hn-btn">更新日志</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-label">ALEA IACTA EST · 骰子已经投出</div>
+  <h1 class="hero-title">CAESAR</h1>
+  <div class="hero-sub">凯撒：高卢战记 · 玩家社区</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    《凯撒：高卢战记》是一款以公元前1世纪罗马征服高卢为背景的<strong style="color:var(--gold-l)">回合制六角格战棋</strong>策略游戏。
+    玩家指挥四大历史势力，在等距3D战场上展开战术较量，还原凯撒《高卢战记》中的六大历史战役。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">⚔ 回合制战棋</span>
+    <span class="hero-badge">🗺 六大历史战役</span>
+    <span class="hero-badge">🦅 四大阵营</span>
+    <span class="hero-badge">🌐 多人联机</span>
+    <span class="hero-badge">🌫 迷雾战争模式</span>
+  </div>
+</section>
+
+<!-- 站点导航 -->
+<nav class="site-navbar">
+  <a href="index.html">首页</a>
+  <a href="play.html">在线游戏</a>
+  <a href="expansion.html">扩展包</a>
+  <a href="help.html">帮助中心</a>
+  <a href="community.html" class="active">玩家社区</a>
+  <a href="download.html">下载</a>
+</nav>
+
+<main class="page-wrap">
+
+<!-- ══ 战术论坛 ══ -->
+<section id="forum" class="section-block">
+  <div class="sec-label">FORUM MILITARE · 战术论坛</div>
+  <h2 class="sec-title">元老院议事厅</h2>
+  <p class="sec-desc">与来自各地的统帅交流战术心得、分享阵营见解、探讨版本动向。每一个帖子都是一场不见硝烟的战争。</p>
+
+  <div class="forum-layout">
+
+    <!-- 主列表 -->
+    <div>
+      <a href="#" class="new-post-btn">+ 发起新议题</a>
+
+      <div class="forum-tabs">
+        <div class="ftab active">全部</div>
+        <div class="ftab">📌 精华帖</div>
+        <div class="ftab">🔥 热门</div>
+        <div class="ftab">⚔ 战术攻略</div>
+        <div class="ftab">🛡 战报</div>
+        <div class="ftab">💬 讨论</div>
+        <div class="ftab">🐛 反馈</div>
+      </div>
+
+      <div class="post-list">
+
+        <div class="post-item pinned">
+          <div>
+            <div class="post-meta">
+              <span class="post-tag news">公告</span>
+              <span class="post-pin">📌 置顶</span>
+            </div>
+            <div class="post-title">【v3.6 更新公告】高卢战争扩展包正式上线，日耳曼与不列颠阵营免费解锁</div>
+            <div class="post-info">管理员 Imperator · 3小时前 · 社区公告</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">248</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">9,821 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item hot">
+          <div>
+            <div class="post-meta"><span class="post-tag strat">攻略</span><span style="font-size:11px;color:#cc6666;">🔥 热帖</span></div>
+            <div class="post-title">[深度攻略] 阿莱西亚围城战全解析——如何以罗马用最少损耗完成双重包围</div>
+            <div class="post-info">Marcus_X · 昨天 23:41 · 战术研讨</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">87</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">4,203 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div>
+            <div class="post-meta"><span class="post-tag discuss">讨论</span></div>
+            <div class="post-title">[讨论] 日耳曼狂战祭司的范围加成是否应该限制为1格？当前版本略显过强</div>
+            <div class="post-info">Vercingetorix · 2小时前 · 平衡性讨论</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">41</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">1,156 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div>
+            <div class="post-meta"><span class="post-tag strat">攻略</span></div>
+            <div class="post-title">[攻略] 不列颠战车流打法——如何利用地形无视特性在前期打开局面</div>
+            <div class="post-info">Cassivellaunus · 5小时前 · 战术研讨</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">32</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">887 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item new">
+          <div>
+            <div class="post-meta"><span class="post-tag report">战报</span><span style="font-size:10px;color:var(--germ-c);letter-spacing:1px;">NEW</span></div>
+            <div class="post-title">[战报] 2v2 团队赛：高卢+不列颠 vs 罗马+日耳曼，30回合史诗逆转全程录像</div>
+            <div class="post-info">GalliaInvicta · 刚刚 · 战报展示</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">8</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">312 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div>
+            <div class="post-meta"><span class="post-tag strat">攻略</span></div>
+            <div class="post-title">[新手向] 从零开始——高卢联盟入门战术体系与资源分配优先级</div>
+            <div class="post-info">Belgae_Tribune · 1天前 · 新手帮助</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">55</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">3,440 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div>
+            <div class="post-meta"><span class="post-tag bug">反馈</span></div>
+            <div class="post-title">[BUG反馈] 越过莱茵河战役中，木桥在特定地形下无法正常触发建造事件</div>
+            <div class="post-info">Legatus_VII · 3天前 · 问题反馈</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">12</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">445 浏览</div>
+          </div>
+        </div>
+
+        <div class="post-item">
+          <div>
+            <div class="post-meta"><span class="post-tag strat">攻略</span></div>
+            <div class="post-title">[进阶] 迷雾模式下的侦察战术——如何用最少单位获得最大视野覆盖</div>
+            <div class="post-info">Explorator · 4天前 · 战术研讨</div>
+          </div>
+          <div class="post-stats">
+            <span class="post-replies">29</span>
+            <span class="post-replies-label">回复</span>
+            <div class="post-views">1,678 浏览</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tip-box" style="margin-top:20px;">
+        <div class="tip-icon">📜</div>
+        <div class="tip-text">发帖前请先阅读社区守则。请使用 <b>[攻略]</b>、<b>[讨论]</b>、<b>[战报]</b>、<b>[BUG]</b> 等前缀标注帖子类型，便于其他玩家快速定位内容。</div>
+      </div>
+    </div>
+
+    <!-- 侧边栏 -->
+    <aside>
+
+      <div class="sidebar-card">
+        <div class="sidebar-head">当前在线</div>
+        <div class="sidebar-body" style="text-align:center;">
+          <span class="online-dot"></span>
+          <span class="online-num">147</span>
+          <span class="online-label">名统帅在线</span>
+          <div class="avatar-wall" style="justify-content:center;margin-top:14px;">
+            <div class="avatar">🦅</div>
+            <div class="avatar">🐗</div>
+            <div class="avatar">🪓</div>
+            <div class="avatar">🏹</div>
+            <div class="avatar">⚔</div>
+            <div class="avatar">🛡</div>
+            <div class="avatar">🗡</div>
+            <div class="avatar">🏆</div>
+            <div class="avatar">🔮</div>
+            <div class="avatar">🌿</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-head">本周胜率排行</div>
+        <div class="sidebar-body">
+          <ul class="rank-list">
+            <li class="rank-item">
+              <span class="rank-num gold">Ⅰ</span>
+              <span class="rank-name">Marcus_X</span>
+              <span class="rank-faction roman">ROMAN</span>
+              <span class="rank-wins">31W</span>
+            </li>
+            <li class="rank-item">
+              <span class="rank-num silver">Ⅱ</span>
+              <span class="rank-name">GalliaInvicta</span>
+              <span class="rank-faction gaul">GAUL</span>
+              <span class="rank-wins">28W</span>
+            </li>
+            <li class="rank-item">
+              <span class="rank-num bronze">Ⅲ</span>
+              <span class="rank-name">Arminius_Wolf</span>
+              <span class="rank-faction germ">GERM</span>
+              <span class="rank-wins">25W</span>
+            </li>
+            <li class="rank-item">
+              <span class="rank-num other">Ⅳ</span>
+              <span class="rank-name">Cassivellaunus</span>
+              <span class="rank-faction brit">BRIT</span>
+              <span class="rank-wins">22W</span>
+            </li>
+            <li class="rank-item">
+              <span class="rank-num other">Ⅴ</span>
+              <span class="rank-name">Vercingetorix</span>
+              <span class="rank-faction gaul">GAUL</span>
+              <span class="rank-wins">20W</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-head">本周阵营选择率</div>
+        <div class="sidebar-body">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+                <span style="color:#cc6666;font-family:'Cinzel',serif;letter-spacing:1px;">🦅 罗马</span>
+                <span style="color:var(--parch-dim);">34%</span>
+              </div>
+              <div style="height:4px;background:rgba(0,0,0,.4);border:1px solid rgba(139,26,26,.2);">
+                <div style="height:100%;width:34%;background:rgba(139,26,26,.6);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+                <span style="color:#6688cc;font-family:'Cinzel',serif;letter-spacing:1px;">🐗 高卢</span>
+                <span style="color:var(--parch-dim);">28%</span>
+              </div>
+              <div style="height:4px;background:rgba(0,0,0,.4);border:1px solid rgba(26,58,139,.2);">
+                <div style="height:100%;width:28%;background:rgba(26,58,139,.7);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+                <span style="color:#88cc66;font-family:'Cinzel',serif;letter-spacing:1px;">🪓 日耳曼</span>
+                <span style="color:var(--parch-dim);">22%</span>
+              </div>
+              <div style="height:4px;background:rgba(0,0,0,.4);border:1px solid rgba(94,173,86,.2);">
+                <div style="height:100%;width:22%;background:rgba(94,173,86,.6);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+                <span style="color:#66aacc;font-family:'Cinzel',serif;letter-spacing:1px;">🏹 不列颠</span>
+                <span style="color:var(--parch-dim);">16%</span>
+              </div>
+              <div style="height:4px;background:rgba(0,0,0,.4);border:1px solid rgba(76,139,201,.2);">
+                <div style="height:100%;width:16%;background:rgba(76,139,201,.6);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-head">快速导航</div>
+        <div class="sidebar-body" style="display:flex;flex-direction:column;gap:6px;">
+          <a href="#battles" style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);text-decoration:none;padding:7px 10px;border:1px solid var(--border);transition:all .2s;display:block;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--parch-dim)';this.style.borderColor='var(--border)'">🛡 战报展示</a>
+          <a href="#guides" style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);text-decoration:none;padding:7px 10px;border:1px solid var(--border);transition:all .2s;display:block;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--parch-dim)';this.style.borderColor='var(--border)'">📖 攻略中心</a>
+          <a href="#changelog" style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);text-decoration:none;padding:7px 10px;border:1px solid var(--border);transition:all .2s;display:block;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--parch-dim)';this.style.borderColor='var(--border)'">📋 更新日志</a>
+          <a href="help.html" style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--parch-dim);text-decoration:none;padding:7px 10px;border:1px solid var(--border);transition:all .2s;display:block;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold)'" onmouseout="this.style.color='var(--parch-dim)';this.style.borderColor='var(--border)'">❓ 帮助中心</a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</section>
+
+<!-- ══ 战报展示 ══ -->
+<section id="battles" class="section-block">
+  <div class="sec-label">ACTA DIURNA · 战报展示</div>
+  <h2 class="sec-title">史诗战场档案</h2>
+  <p class="sec-desc">每一场胜利都值得被铭记。在这里分享你的传奇对局截图与录像，让帝国的荣耀流传后世。</p>
+
+  <div class="battle-grid">
+
+    <div class="battle-card">
+      <div class="battle-banner roman-win">🦅</div>
+      <div class="battle-info">
+        <div class="battle-title">阿莱西亚：铁壁双环</div>
+        <div class="battle-meta">Marcus_X · 昨天 · 单人战役</div>
+        <div class="battle-vs">
+          <span class="faction-pill roman">ROMAN</span>
+          <span class="vs-text">vs</span>
+          <span class="faction-pill gaul">GAUL</span>
+          <span style="font-size:11px;color:var(--germ-c);margin-left:4px;">🏆 胜</span>
+        </div>
+        <div class="battle-likes" style="margin-top:8px;">用22回合完成双重包围工事，零损耗瓦解两路援军冲击。史诗级防守战术演示。</div>
+        <div class="battle-likes">❤ 156 · 💬 23</div>
+      </div>
+    </div>
+
+    <div class="battle-card">
+      <div class="battle-banner gaul-win">🐗</div>
+      <div class="battle-info">
+        <div class="battle-title">萨比斯河：以少胜多</div>
+        <div class="battle-meta">GalliaInvicta · 3天前 · 多人对战</div>
+        <div class="battle-vs">
+          <span class="faction-pill gaul">GAUL</span>
+          <span class="vs-text">vs</span>
+          <span class="faction-pill roman">ROMAN</span>
+          <span style="font-size:11px;color:var(--germ-c);margin-left:4px;">🏆 胜</span>
+        </div>
+        <div class="battle-likes" style="margin-top:8px;">高卢暴击触发率极佳，濒死反击三连击逆转战局。血性特性全程发挥到极致。</div>
+        <div class="battle-likes">❤ 98 · 💬 17</div>
+      </div>
+    </div>
+
+    <div class="battle-card">
+      <div class="battle-banner germ-win">🪓</div>
+      <div class="battle-info">
+        <div class="battle-title">莱茵河森林：狼群围猎</div>
+        <div class="battle-meta">Arminius_Wolf · 5天前 · 2v2联机</div>
+        <div class="battle-vs">
+          <span class="faction-pill germ">GERM</span>
+          <span class="faction-pill brit">BRIT</span>
+          <span class="vs-text">vs</span>
+          <span class="faction-pill roman">ROMAN</span>
+          <span style="font-size:11px;color:var(--germ-c);margin-left:4px;">🏆 胜</span>
+        </div>
+        <div class="battle-likes" style="margin-top:8px;">日耳曼+不列颠组合，战狼骑兵与战车协同夹击，德鲁伊全程守住后排弓手。</div>
+        <div class="battle-likes">❤ 134 · 💬 31</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:24px;">
+    <a href="#" class="new-post-btn" style="display:inline-block;width:auto;padding:12px 40px;">🛡 分享你的战报</a>
+  </div>
+</section>
+
+<!-- ══ 攻略中心 ══ -->
+<section id="guides" class="section-block">
+  <div class="sec-label">LIBER BELLICUS · 攻略中心</div>
+  <h2 class="sec-title">战场智慧结晶</h2>
+  <p class="sec-desc">由社区精英玩家撰写的深度攻略。从基础入门到顶尖对局，每一篇都经过编辑组审核精选。</p>
+
+  <div class="guide-grid">
+
+    <div class="guide-card roman">
+      <div class="guide-icon">🦅</div>
+      <div class="guide-title">罗马军团：不败之阵</div>
+      <div class="guide-author">作者：Marcus_X · 更新于 v3.6</div>
+      <p class="guide-desc">从军团步兵的升级路线到骑兵侧翼包抄，全面解析罗马的阵地战体系。重点讲解韧性特性的最大化利用与消耗战节奏控制。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">阵营攻略</span>
+        <span class="guide-tag">进阶</span>
+        <span class="guide-tag">单人&多人</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 8,241 · ❤ 312</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+    <div class="guide-card gaul">
+      <div class="guide-icon">🐗</div>
+      <div class="guide-title">高卢血性：永不停歇的进攻</div>
+      <div class="guide-author">作者：Vercingetorix · 更新于 v3.5</div>
+      <p class="guide-desc">高卢的血性特性要求玩家始终保持进攻主动权。本指南深入分析暴击触发概率、濒死单位的反击站位以及贵族骑兵的领导光环协同。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">阵营攻略</span>
+        <span class="guide-tag">进阶</span>
+        <span class="guide-tag">进攻型</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 5,530 · ❤ 198</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+    <div class="guide-card germ">
+      <div class="guide-icon">🪓</div>
+      <div class="guide-title">日耳曼密林：伏击与滚雪球</div>
+      <div class="guide-author">作者：Arminius_Wolf · 更新于 v3.6</div>
+      <p class="guide-desc">专为扩展包新阵营撰写。如何用森林战士控制密林地形，如何让战狼骑兵的狼群加成叠满，以及狂战祭司的最优站位策略。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">新阵营</span>
+        <span class="guide-tag">扩展包</span>
+        <span class="guide-tag">地形利用</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 4,102 · ❤ 177</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+    <div class="guide-card brit">
+      <div class="guide-icon">🏹</div>
+      <div class="guide-title">不列颠战车：破防与机动</div>
+      <div class="guide-author">作者：Cassivellaunus · 更新于 v3.6</div>
+      <p class="guide-desc">战车无视地形防御是改变游戏规则的机制。本指南讲解战车突袭的最优出击时机、德鲁伊的防御气泡覆盖策略与高地弓手的火力压制配合。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">新阵营</span>
+        <span class="guide-tag">扩展包</span>
+        <span class="guide-tag">机动战术</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 3,879 · ❤ 145</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+    <div class="guide-card" style="border-left:3px solid var(--gold);">
+      <div class="guide-icon">🌫</div>
+      <div class="guide-title">迷雾战争：信息即是胜利</div>
+      <div class="guide-author">作者：Explorator · 更新于 v3.4</div>
+      <p class="guide-desc">迷雾模式下视野控制决定胜负。系统讲解各阵营视野范围对比、侦察单位的路线规划以及在信息不完整情况下的决策框架。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">通用机制</span>
+        <span class="guide-tag">进阶</span>
+        <span class="guide-tag">信息战</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 6,714 · ❤ 256</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+    <div class="guide-card" style="border-left:3px solid #9B59B6;">
+      <div class="guide-icon">🌐</div>
+      <div class="guide-title">2v2 组队：协同与分工</div>
+      <div class="guide-author">作者：Belgae_Tribune · 更新于 v3.6</div>
+      <p class="guide-desc">团队模式中阵营搭配至关重要。分析当前版本最强双阵营组合、共享视野的信息优势如何利用，以及夹击与牵制的标准配合套路。</p>
+      <div class="guide-tags">
+        <span class="guide-tag">多人联机</span>
+        <span class="guide-tag">2v2</span>
+        <span class="guide-tag">团队配合</span>
+      </div>
+      <div class="guide-footer">
+        <span class="guide-stats">👁 4,455 · ❤ 189</span>
+        <a href="#" class="guide-read-btn">阅读全文</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 更新日志 ══ -->
+<section id="changelog" class="section-block">
+  <div class="sec-label">ACTA PUBLICA · 更新日志</div>
+  <h2 class="sec-title">版本变更记录</h2>
+  <p class="sec-desc">每一次更新都是对历史还原度与游戏体验的精进。以下为近期全部版本变更的完整记录。</p>
+
+  <div class="changelog-list">
+
+    <div class="cl-item">
+      <div class="cl-header">
+        <span class="cl-ver">v3.6</span>
+        <span class="cl-date">2024.12.01</span>
+        <span class="cl-badge major">大版本</span>
+      </div>
+      <div class="cl-body">
+        <div>
+          <div class="cl-col-title">新增内容</div>
+          <ul class="cl-entries">
+            <li class="new-feat">新增日耳曼部落阵营（含4种标准兵种+狂战祭司）</li>
+            <li class="new-feat">新增不列颠部落阵营（含4种标准兵种+德鲁伊）</li>
+            <li class="new-feat">新增战役：越过莱茵河</li>
+            <li class="new-feat">新增战役：远征不列颠</li>
+            <li class="new-feat">新增多人模式：三人混战（FFA）</li>
+            <li class="new-feat">新增多人模式：四人2v2</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cl-col-title">平衡调整</div>
+          <ul class="cl-entries">
+            <li>高卢贵族骑兵冲锋伤害从+3调整为+2</li>
+            <li>罗马军团步兵自动回血从2点调整为1点</li>
+            <li>随机地图算法优化，减少地形过于单一的情况</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cl-col-title">修复问题</div>
+          <ul class="cl-entries">
+            <li class="fix">修复迷雾模式下特定地形视野穿透BUG</li>
+            <li class="fix">修复多人模式中回合计时器偶发不同步问题</li>
+            <li class="fix">修复阿莱西亚战役第3阶段援军AI逻辑错误</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-header">
+        <span class="cl-ver">v3.5</span>
+        <span class="cl-date">2024.09.15</span>
+        <span class="cl-badge patch">补丁</span>
+      </div>
+      <div class="cl-body">
+        <div>
+          <div class="cl-col-title">新增内容</div>
+          <ul class="cl-entries">
+            <li class="new-feat">新增随机地图战役模式</li>
+            <li class="new-feat">新增高卢战记历史注释（战役前显示）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cl-col-title">平衡调整</div>
+          <ul class="cl-entries">
+            <li>辅助弓箭手精准射击对骑兵额外伤害从+3降至+2</li>
+            <li>山地防御加成从+2调整为+1</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cl-col-title">修复问题</div>
+          <ul class="cl-entries">
+            <li class="fix">修复升级界面在小屏设备上文字溢出问题</li>
+            <li class="fix">修复萨比斯河战役胜利条件判定偶发失效</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-header">
+        <span class="cl-ver">v3.4</span>
+        <span class="cl-date">2024.06.20</span>
+        <span class="cl-badge patch">补丁</span>
+      </div>
+      <div class="cl-body">
+        <div>
+          <div class="cl-col-title">新增内容</div>
+          <ul class="cl-entries">
+            <li class="new-feat">新增迷雾战争模式</li>
+            <li class="new-feat">新增单位升级路线可视化界面</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cl-col-title">其他优化</div>
+          <ul class="cl-entries">
+            <li>大幅优化地图渲染性能</li>
+            <li>调整AI难度权重，减少无脑冲锋概率</li>
+            <li>新增游戏内快捷键说明浮层</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">CAESAR</div>
+  <p style="font-size:11px;letter-spacing:4px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-bottom:4px;">凯撒：高卢战记</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="play.html">在线游戏</a>
+    <a href="expansion.html">扩展包</a>
+    <a href="help.html">帮助中心</a>
+    <a href="community.html">玩家社区</a>
+    <a href="download.html">下载</a>
+  </div>
+  <div class="footer-copy">CAESAR · BELLUM GALLICUM © 2024 ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+function initHeroCanvas(){
+  const cvs=document.getElementById('hero-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H;
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  const stars=Array.from({length:120},()=>({
+    x:Math.random(),y:Math.random(),
+    s:Math.random()*.8+.2,v:Math.random()*.0002+.0001,a:Math.random()
+  }));
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.v;
+      const alpha=(.3+.7*Math.abs(Math.sin(s.a)))*.6;
+      ctx.fillStyle=`rgba(201,168,76,${alpha})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function initNavHighlight(){
+  const sections=document.querySelectorAll('section[id]');
+  const btns=document.querySelectorAll('.hn-btn');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        btns.forEach(b=>b.classList.remove('active'));
+        const btn=document.querySelector(`.hn-btn[href="#${e.target.id}"]`);
+        if(btn)btn.classList.add('active');
+      }
+    });
+  },{threshold:0.3});
+  sections.forEach(s=>obs.observe(s));
+}
+
+// 论坛标签切换
+document.querySelectorAll('.ftab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+
+window.addEventListener('load',()=>{initHeroCanvas();initNavHighlight();});
+</script>
+</body>
+</html>

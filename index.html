@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>凯撒：高卢战记 - 首页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#7A5810;--gold-faint:rgba(201,168,76,.12);
+  --parch:#F4E8C1;--parch-d:#C8B07A;--parch-dim:rgba(200,176,120,.55);
+  --bg:#080503;--bg2:#0e0a05;
+  --roman:#8B1A1A;--gaul:#1A3A8B;
+  --border:rgba(201,168,76,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Serif SC',serif;
+  background:var(--bg);color:var(--parch-d);
+  min-height:100vh;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%,rgba(139,26,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%,rgba(26,58,139,.07) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px),
+    repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px);
+}
+
+/* ── HEADER ── */
+#site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,3,1,.96);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:62px;
+}
+.site-logo{
+  font-family:'Cinzel Decorative',serif;font-size:17px;color:var(--gold);
+  letter-spacing:3px;text-shadow:0 0 20px rgba(201,168,76,.4);white-space:nowrap;
+}
+.site-logo span{font-size:11px;color:var(--parch-dim);letter-spacing:5px;display:block;margin-top:1px;}
+.header-nav{display:flex;gap:4px;align-items:center;}
+.hn-btn{
+  padding:6px 14px;background:transparent;border:1px solid transparent;
+  color:var(--parch-dim);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;
+}
+.hn-btn:hover,.hn-btn.active{color:var(--gold);border-color:var(--border);background:var(--gold-faint);}
+
+/* ── HERO ── */
+#hero{
+  position:relative;overflow:hidden;
+  padding:80px 40px 70px;text-align:center;
+  border-bottom:1px solid var(--border);
+}
+#hero-canvas{position:absolute;inset:0;opacity:.18;pointer-events:none;}
+.hero-label{font-size:10px;color:var(--gold-d);letter-spacing:8px;margin-bottom:16px;font-family:'Cinzel',serif;}
+.hero-title{
+  font-family:'Cinzel Decorative',serif;font-size:58px;
+  color:var(--gold);letter-spacing:6px;
+  animation:glow 3s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{text-shadow:0 0 30px rgba(201,168,76,.4);}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 100px rgba(201,168,76,.3);}}
+.hero-sub{font-size:13px;color:var(--parch-dim);letter-spacing:7px;margin:10px 0 30px;font-family:'Cinzel',serif;}
+.hero-desc{max-width:620px;margin:0 auto;font-size:14px;line-height:2;color:var(--parch-d);}
+.hero-divider{
+  width:300px;height:1px;margin:30px auto;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;
+}
+.hero-divider::before{content:'◆';position:absolute;left:50%;top:-8px;transform:translateX(-50%);color:var(--gold);font-size:13px;}
+.hero-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.hero-badge{
+  padding:6px 16px;border:1px solid var(--border);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--parch-dim);background:rgba(0,0,0,.3);
+}
+.hero-cta{display:flex;gap:14px;justify-content:center;margin-top:36px;flex-wrap:wrap;}
+.cta-btn{
+  padding:14px 36px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;
+  border:1px solid var(--gold-d);color:var(--parch);background:rgba(18,8,2,.9);
+  text-decoration:none;transition:all .25s;cursor:pointer;
+}
+.cta-btn:hover{border-color:var(--gold);color:var(--gold);transform:scale(1.04);}
+.cta-btn.primary{border-color:var(--gold);background:rgba(201,168,76,.1);}
+.cta-btn.primary:hover{background:rgba(201,168,76,.18);}
+.cta-btn.gaul{border-color:var(--gaul);background:rgba(26,58,139,.12);}
+.cta-btn.gaul:hover{border-color:#4C8BC9;color:#4C8BC9;}
+
+/* ── 站点导航栏 ── */
+.site-navbar{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:16px 30px;background:rgba(6,3,1,.92);
+  border-bottom:1px solid var(--border);position:relative;z-index:1;
+}
+.site-navbar a{
+  padding:10px 20px;background:rgba(14,6,1,.88);border:1px solid var(--gold-d);
+  color:var(--parch-d);text-decoration:none;font-family:'Cinzel',serif;
+  font-size:12px;letter-spacing:2px;transition:all .2s;
+}
+.site-navbar a:hover,.site-navbar a.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:1100px;margin:0 auto;padding:0 30px;position:relative;z-index:1;}
+.section-block{padding:60px 0;border-bottom:1px solid var(--border);}
+.section-block:last-child{border-bottom:none;}
+.sec-label{font-size:9px;color:var(--gold-d);letter-spacing:6px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.sec-title{font-family:'Cinzel Decorative',serif;font-size:26px;color:var(--gold);letter-spacing:3px;margin-bottom:8px;}
+.sec-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:32px;max-width:700px;}
+
+/* ── 通用卡片 ── */
+.card{
+  background:linear-gradient(155deg,rgba(18,8,2,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);padding:22px 20px;
+  transition:all .28s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.5);}
+.card:hover::before{opacity:1;}
+.card-icon{font-size:28px;margin-bottom:12px;}
+.card-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:8px;}
+.card-text{font-size:12px;line-height:1.9;color:var(--parch-dim);}
+
+/* ── 特性网格 ── */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+
+/* ── 阵营展示 ── */
+.faction-showcase{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.faction-card{
+  background:linear-gradient(155deg,rgba(18,8,2,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);padding:24px 20px;
+  transition:all .28s;position:relative;overflow:hidden;text-align:center;
+}
+.faction-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.faction-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.5);}
+.faction-card:hover::before{opacity:1;}
+.faction-card.roman{border-left:3px solid var(--roman);}
+.faction-card.gaul{border-left:3px solid var(--gaul);}
+.faction-card.germ{border-left:3px solid #5EAD56;}
+.faction-card.brit{border-left:3px solid #4C8BC9;}
+.faction-card.roman:hover{border-color:rgba(139,26,26,.6);}
+.faction-card.gaul:hover{border-color:rgba(26,58,139,.6);}
+.faction-card.germ:hover{border-color:rgba(94,173,86,.6);}
+.faction-card.brit:hover{border-color:rgba(76,139,201,.6);}
+.faction-icon{font-size:36px;margin-bottom:14px;display:block;}
+.faction-name{font-family:'Cinzel Decorative',serif;font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:6px;}
+.faction-sub{font-size:9px;letter-spacing:4px;color:var(--gold-d);margin-bottom:14px;font-family:'Cinzel',serif;}
+.faction-trait{
+  font-size:10px;letter-spacing:2px;font-family:'Cinzel',serif;
+  padding:4px 12px;border:1px solid;display:inline-block;margin-bottom:12px;
+}
+.roman .faction-trait{color:#cc6666;border-color:rgba(139,26,26,.4);}
+.gaul .faction-trait{color:#6688cc;border-color:rgba(26,58,139,.4);}
+.germ .faction-trait{color:#88cc66;border-color:rgba(94,173,86,.4);}
+.brit .faction-trait{color:#66aacc;border-color:rgba(76,139,201,.4);}
+.faction-desc-short{font-size:11px;line-height:1.8;color:var(--parch-dim);}
+
+/* ── 战役时间线 ── */
+.timeline{position:relative;padding-left:24px;}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--gold),transparent);}
+.tl-item{position:relative;margin-bottom:28px;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-dot{
+  position:absolute;left:-24px;top:4px;
+  width:14px;height:14px;
+  border:1px solid var(--gold);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.tl-dot::after{content:'';width:6px;height:6px;background:var(--gold);display:block;}
+.tl-year{font-size:9px;letter-spacing:4px;color:var(--gold-d);font-family:'Cinzel',serif;margin-bottom:4px;}
+.tl-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:1px;margin-bottom:6px;}
+.tl-desc{font-size:12px;line-height:1.8;color:var(--parch-dim);}
+
+/* ── 数据统计栏 ── */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  border:1px solid var(--border);background:rgba(0,0,0,.3);
+}
+.stat-item{
+  padding:24px 20px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Cinzel Decorative',serif;font-size:36px;color:var(--gold);letter-spacing:2px;display:block;margin-bottom:6px;}
+.stat-label{font-size:9px;letter-spacing:4px;color:var(--parch-dim);font-family:'Cinzel',serif;}
+
+/* ── TIP BOX ── */
+.tip-box{display:flex;gap:12px;align-items:flex-start;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);padding:12px 16px;margin:16px 0;}
+.tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tip-text{font-size:12px;line-height:1.8;color:rgba(200,176,120,.75);}
+
+/* ── FOOTER ── */
+footer{padding:40px 32px;text-align:center;border-top:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:1;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:20px;color:var(--gold);letter-spacing:4px;margin-bottom:8px;text-shadow:0 0 20px rgba(201,168,76,.3);}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0;}
+.footer-links a{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--parch-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:10px;letter-spacing:4px;color:rgba(200,176,120,.25);font-family:'Cinzel',serif;margin-top:16px;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+@media(max-width:600px){
+  .hero-title{font-size:38px;}
+  .site-logo{font-size:13px;}
+  #site-header{padding:0 16px;}
+  .page-wrap{padding:0 16px;}
+  .header-nav{display:none;}
+  .site-navbar{padding:12px 16px;}
+  .site-navbar a{padding:8px 12px;font-size:11px;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+  .stat-item{border-bottom:1px solid var(--border);}
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="site-logo">
+    CAESAR
+    <span>凯撒：高卢战记</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#about"    class="hn-btn">游戏简介</a>
+    <a href="#factions" class="hn-btn">四大阵营</a>
+    <a href="#campaigns"class="hn-btn">历史战役</a>
+    <a href="#features" class="hn-btn">游戏特色</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-label">IMPERIUM ROMANUM · 罗马帝国 · 公元前 58 年</div>
+  <h1 class="hero-title">CAESAR</h1>
+  <div class="hero-sub">凯撒：高卢战记 · 回合制六角格战棋</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    置身于公元前58年的史诗战场。指挥严整的<strong style="color:var(--gold-l)">罗马军团</strong>，或是率领狂暴的<strong style="color:#6688cc">高卢部落</strong>，在六角格的博弈中决定文明的走向。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">⚔ 回合制战棋</span>
+    <span class="hero-badge">🗺 六大历史战役</span>
+    <span class="hero-badge">🦅 四大阵营</span>
+    <span class="hero-badge">🌐 多人联机</span>
+    <span class="hero-badge">🌫 迷雾战争模式</span>
+  </div>
+  <div class="hero-cta">
+    <a href="play.html" class="cta-btn primary">⚔ 立即出征</a>
+    <a href="expansion.html" class="cta-btn gaul">🛡 扩展包内容</a>
+    <a href="download.html" class="cta-btn">💾 下载离线版</a>
+  </div>
+</section>
+
+<!-- 站点导航 -->
+<nav class="site-navbar">
+  <a href="index.html" class="active">首页</a>
+  <a href="play.html">在线游戏</a>
+  <a href="expansion.html">扩展包</a>
+  <a href="help.html">帮助中心</a>
+  <a href="community.html">玩家社区</a>
+  <a href="download.html">下载</a>
+</nav>
+
+<main class="page-wrap">
+
+<!-- ══ 数据统计 ══ -->
+<section class="section-block" style="padding:40px 0;">
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-num">IV</span>
+      <span class="stat-label">大历史阵营</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">VI</span>
+      <span class="stat-label">历史战役</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">18</span>
+      <span class="stat-label">可用兵种</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4v4</span>
+      <span class="stat-label">最大联机规模</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 游戏简介 ══ -->
+<section id="about" class="section-block">
+  <div class="sec-label">DE BELLO GALLICO · 游戏简介</div>
+  <h2 class="sec-title">高卢战记</h2>
+  <p class="sec-desc">公元前58年，盖乌斯·尤利乌斯·凯撒率领罗马军团开始了长达八年的高卢征服。如今这段历史在六角格战场上重现——指挥你的部队，书写属于你的战史。</p>
+
+  <div class="feature-grid">
+    <div class="card">
+      <div class="card-icon">📜</div>
+      <div class="card-title">忠于历史</div>
+      <p class="card-text">游戏战役完全基于凯撒亲笔著作《高卢战记》。从赫尔维蒂人的大迁徙，到阿莱西亚的最终围城，每一场战役都有翔实的史料依据，带你重历震撼人心的历史瞬间。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🦅</div>
+      <div class="card-title">阵营特性</div>
+      <p class="card-text">罗马的纪律韧性、高卢的血性爆发、日耳曼的密林伏击、不列颠的战车骚扰。四大势力拥有截然不同的战术风格与专属特殊兵种，每局都是全新的策略体验。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎲</div>
+      <div class="card-title">深度策略</div>
+      <p class="card-text">地形加成、兵种克制、迷雾战争与随机地图。升级系统与资源管理让每一回合的决策都牵一发而动全身，真正考验统帅的大局观与战术思维。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">多人联机</div>
+      <p class="card-text">支持三人混战（FFA）与四人2v2组队模式。与真实对手较量，体验人工智能无法复现的心理博弈——每一次外交、背刺与反杀，都将成为传奇战报。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗺</div>
+      <div class="card-title">随机地图</div>
+      <p class="card-text">内置地图生成算法，山川、河流、密林、要塞随机分布。每一局的战场布局皆不相同，为老玩家持续提供新鲜的战略挑战，无尽重复游玩价值。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⬡</div>
+      <div class="card-title">等距六角格</div>
+      <p class="card-text">经典六角格战棋系统，精确的等距视角呈现立体战场。移动、攻击、防御范围一目了然，在严谨的数值框架内释放最大的战术创意。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 四大阵营 ══ -->
+<section id="factions" class="section-block">
+  <div class="sec-label">QUATTUOR FACTIONS · 四大阵营</div>
+  <h2 class="sec-title">选择你的势力</h2>
+  <p class="sec-desc">每支势力都有独特的阵营特性与专属兵种。选择你的立场，以截然不同的方式征服这片土地。</p>
+
+  <div class="faction-showcase">
+
+    <div class="faction-card roman">
+      <span class="faction-icon">🦅</span>
+      <div class="faction-name">罗马共和国</div>
+      <div class="faction-sub">RES PUBLICA ROMANA</div>
+      <span class="faction-trait">韧性</span>
+      <p class="faction-desc-short">铁血军纪使所有单位反击+1，每回合结束自动恢复生命。以阵地战和消耗战碾压对手。</p>
+    </div>
+
+    <div class="faction-card gaul">
+      <span class="faction-icon">🐗</span>
+      <div class="faction-name">高卢联盟</div>
+      <div class="faction-sub">FOEDERATIO GALLICA</div>
+      <span class="faction-trait">血性</span>
+      <p class="faction-desc-short">主动进攻有概率触发暴击（2倍伤害）。越打越猛，濒死反击能力极强，进攻是最好的防御。</p>
+    </div>
+
+    <div class="faction-card germ">
+      <span class="faction-icon">🪓</span>
+      <div class="faction-name">日耳曼部落</div>
+      <div class="faction-sub">GERMANI TRIBUS</div>
+      <span class="faction-trait">狂怒</span>
+      <p class="faction-desc-short">击杀敌军后回复生命并获攻击加成，滚雪球效应强劲。密林中如鱼得水，伏击是他们的艺术。</p>
+    </div>
+
+    <div class="faction-card brit">
+      <span class="faction-icon">🏹</span>
+      <div class="faction-name">不列颠部落</div>
+      <div class="faction-sub">BRITANNI TRIBUS</div>
+      <span class="faction-trait">战车战术</span>
+      <p class="faction-desc-short">战车突袭完全无视地形防御加成，高机动骚扰体系。德鲁伊支援使全军防御坚不可摧。</p>
+    </div>
+
+  </div>
+
+  <div class="tip-box" style="margin-top:24px;">
+    <div class="tip-icon">💡</div>
+    <div class="tip-text">日耳曼与不列颠阵营为<b>高卢战争扩展包</b>新增内容，已免费纳入 v3.6 版本，无需额外安装。</div>
+  </div>
+</section>
+
+<!-- ══ 历史战役 ══ -->
+<section id="campaigns" class="section-block">
+  <div class="sec-label">HISTORICA PROELIA · 历史战役</div>
+  <h2 class="sec-title">五大历史战场</h2>
+  <p class="sec-desc">每一场战役都源自《高卢战记》的真实记载。从赫尔维蒂人的迁徙开始，跟随凯撒的脚步走向最终的征服。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">公元前 58 年 · HELVETII MIGRATION</div>
+        <div class="tl-title">赫尔维蒂人的迁徙</div>
+        <p class="tl-desc">高卢战争的起点。阻截赫尔维蒂大军穿越罗马行省，比布拉克特之战决定战争走向。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">公元前 58 年 · BATTLE OF VOSGES</div>
+        <div class="tl-title">孚日山脉对决</div>
+        <p class="tl-desc">击败日耳曼首领阿里奥维斯图斯，将日耳曼人逐回莱茵河以东，确立罗马的高卢霸权。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">公元前 52 年 · SIEGE OF ALESIA</div>
+        <div class="tl-title">阿莱西亚围城战</div>
+        <p class="tl-desc">高卢战争的终幕。双重包围工事，内围维钦托利，外御援军冲击。史上最艰难的围城之战。</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">公元前 55 年 · CROSSING THE RHINE</div>
+        <div class="tl-title">越过莱茵河 <span style="font-size:9px;color:var(--gold-d);letter-spacing:2px;">扩展包</span></div>
+        <p class="tl-desc">十天建成木桥，深入日耳曼密林。工程奇迹与丛林鏖战，让蛮族见识罗马的无限意志。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">公元前 55 年 · BRITANNIA EXPEDITION</div>
+        <div class="tl-title">远征不列颠 <span style="font-size:9px;color:var(--gold-d);letter-spacing:2px;">扩展包</span></div>
+        <p class="tl-desc">跨越茫茫北海，在白垩悬崖下建立登陆场。凯尔特战车的冲击，海岸要塞的血战。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 游戏特色 ══ -->
+<section id="features" class="section-block">
+  <div class="sec-label">PROPRIETATES · 游戏特色</div>
+  <h2 class="sec-title">为何选择 CAESAR</h2>
+  <p class="sec-desc">一款真正将历史深度与策略乐趣融为一体的战棋游戏，为每一类玩家提供独特的体验。</p>
+
+  <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+    <div class="card" style="border-left:3px solid var(--roman);">
+      <div class="card-icon">📖</div>
+      <div class="card-title">历史爱好者</div>
+      <p class="card-text">战役剧本忠实还原《高卢战记》原著，配有详细的历史注释与战役背景说明。在策略博弈的同时，深度了解这段改变欧洲历史的战争。</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gaul);">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">策略玩家</div>
+      <p class="card-text">多层次的战术系统——地形利用、兵种克制、升级路线、资源分配。每场对局都是全新的脑力挑战，没有两局相同的战场。</p>
+    </div>
+    <div class="card" style="border-left:3px solid #5EAD56;">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">联机竞技者</div>
+      <p class="card-text">实时多人对战系统，支持三人混战与四人组队。真人对手带来人工智能无法复现的心理博弈，每场对局都是独特的历史故事。</p>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:28px;">
+    <div class="tip-icon">📢</div>
+    <div class="tip-text"><b>指挥官通报：</b>高卢战争扩展包现已加入"越过莱茵河""远征不列颠"两场历史战役，以及三人混战与四人2v2多人联机模式。所有内容已免费纳入 v3.6 版本。</div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CAESAR</div>
+  <p style="font-size:11px;letter-spacing:4px;color:var(--parch-dim);font-family:'Cinzel',serif;margin-bottom:4px;">凯撒：高卢战记</p>
+  <div class="footer-links">
+    <a href="index.html">首页</a>
+    <a href="play.html">在线游戏</a>
+    <a href="expansion.html">扩展包</a>
+    <a href="help.html">帮助中心</a>
+    <a href="community.html">玩家社区</a>
+    <a href="download.html">下载</a>
+  </div>
+  <div class="footer-copy">CAESAR · BELLUM GALLICUM © 2024 ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+function initHeroCanvas(){
+  const cvs=document.getElementById('hero-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H;
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  const stars=Array.from({length:140},()=>({
+    x:Math.random(),y:Math.random(),
+    s:Math.random()*.9+.2,v:Math.random()*.0002+.0001,a:Math.random()
+  }));
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.v;
+      const alpha=(.3+.7*Math.abs(Math.sin(s.a)))*.6;
+      ctx.fillStyle=`rgba(201,168,76,${alpha})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+function initNavHighlight(){
+  const sections=document.querySelectorAll('section[id]');
+  const btns=document.querySelectorAll('.hn-btn');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        btns.forEach(b=>b.classList.remove('active'));
+        const btn=document.querySelector(`.hn-btn[href="#${e.target.id}"]`);
+        if(btn)btn.classList.add('active');
+      }
+    });
+  },{threshold:0.35});
+  sections.forEach(s=>obs.observe(s));
+}
+window.addEventListener('load',()=>{initHeroCanvas();initNavHighlight();});
+</script>
+</body>
+</html>

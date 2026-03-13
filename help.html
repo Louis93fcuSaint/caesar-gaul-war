@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凯撒：高卢战记 · 玩家帮助站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#7A5810;--gold-faint:rgba(201,168,76,.12);
+  --parch:#F4E8C1;--parch-d:#C8B07A;--parch-dim:rgba(200,176,120,.55);
+  --bg:#080503;--bg2:#0e0a05;--bg3:#14090280;
+  --roman:#8B1A1A;--gaul:#1A3A8B;--germ:#2A5A20;--brit:#1A4A6A;
+  --border:rgba(201,168,76,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Serif SC',serif;
+  background:var(--bg);
+  color:var(--parch-d);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── 背景装饰 ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%,rgba(139,26,26,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 80%,rgba(26,58,139,.07) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px),
+    repeating-linear-gradient(90deg,transparent,transparent 58px,rgba(201,168,76,.025) 59px);
+}
+
+/* ── HEADER ── */
+#site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,3,1,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:62px;
+}
+.site-logo{
+  font-family:'Cinzel Decorative',serif;
+  font-size:17px;color:var(--gold);
+  letter-spacing:3px;
+  text-shadow:0 0 20px rgba(201,168,76,.4);
+  white-space:nowrap;
+}
+.site-logo span{font-size:11px;color:var(--parch-dim);letter-spacing:5px;display:block;margin-top:1px;}
+.header-nav{display:flex;gap:4px;align-items:center;}
+.hn-btn{
+  padding:6px 14px;
+  background:transparent;
+  border:1px solid transparent;
+  color:var(--parch-dim);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  cursor:pointer;transition:all .2s;
+  text-decoration:none;display:inline-block;
+}
+.hn-btn:hover,.hn-btn.active{color:var(--gold);border-color:var(--border);background:var(--gold-faint);}
+
+/* ── HERO ── */
+#hero{
+  position:relative;overflow:hidden;
+  padding:70px 40px 60px;text-align:center;
+  border-bottom:1px solid var(--border);
+}
+#hero-canvas{position:absolute;inset:0;opacity:.18;pointer-events:none;}
+.hero-label{font-size:10px;color:var(--gold-d);letter-spacing:8px;margin-bottom:16px;font-family:'Cinzel',serif;}
+.hero-title{
+  font-family:'Cinzel Decorative',serif;font-size:52px;
+  color:var(--gold);letter-spacing:6px;
+  text-shadow:0 0 40px rgba(201,168,76,.5),0 0 80px rgba(201,168,76,.2);
+  animation:glow 3s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{text-shadow:0 0 30px rgba(201,168,76,.4);}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 100px rgba(201,168,76,.3);}}
+.hero-sub{font-size:13px;color:var(--parch-dim);letter-spacing:7px;margin:10px 0 30px;font-family:'Cinzel',serif;}
+.hero-desc{
+  max-width:620px;margin:0 auto;
+  font-size:14px;line-height:2;color:var(--parch-d);
+}
+.hero-divider{
+  width:300px;height:1px;margin:30px auto;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  position:relative;
+}
+.hero-divider::before{content:'◆';position:absolute;left:50%;top:-8px;transform:translateX(-50%);color:var(--gold);font-size:13px;}
+.hero-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.hero-badge{
+  padding:6px 16px;
+  border:1px solid var(--border);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--parch-dim);
+  background:rgba(0,0,0,.3);
+}
+
+/* ── LAYOUT ── */
+.page-wrap{
+  max-width:1100px;margin:0 auto;
+  padding:0 30px;position:relative;z-index:1;
+}
+.section-block{padding:60px 0;border-bottom:1px solid var(--border);}
+.section-block:last-child{border-bottom:none;}
+.sec-label{font-size:9px;color:var(--gold-d);letter-spacing:6px;font-family:'Cinzel',serif;margin-bottom:10px;}
+.sec-title{
+  font-family:'Cinzel Decorative',serif;font-size:26px;
+  color:var(--gold);letter-spacing:3px;margin-bottom:8px;
+}
+.sec-desc{font-size:13px;color:var(--parch-dim);line-height:1.9;margin-bottom:32px;max-width:700px;}
+
+/* ── 卡片 ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:20px;}
+.card{
+  background:linear-gradient(155deg,rgba(18,8,2,.98),rgba(8,3,0,.98));
+  border:1px solid var(--border);
+  padding:22px 20px;
+  transition:all .28s;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.5);}
+.card:hover::before{opacity:1;}
+.card-icon{font-size:28px;margin-bottom:12px;}
+.card-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:8px;}
+.card-text{font-size:12px;line-height:1.9;color:var(--parch-dim);}
+
+/* ── 地图区 ── */
+.map-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-top:20px;}
+.map-card{
+  background:rgba(10,5,1,.97);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:all .28s;
+}
+.map-card:hover{border-color:rgba(201,168,76,.45);box-shadow:0 10px 40px rgba(0,0,0,.6);}
+.map-preview{
+  width:100%;height:160px;display:block;
+  border-bottom:1px solid var(--border);
+}
+.map-info{padding:16px 18px;}
+.map-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:2px;margin-bottom:4px;}
+.map-era{font-size:9px;color:var(--gold-d);letter-spacing:3px;margin-bottom:10px;font-family:'Cinzel',serif;}
+.map-desc{font-size:11.5px;line-height:1.8;color:var(--parch-dim);margin-bottom:10px;}
+.map-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.map-tag{
+  padding:2px 8px;font-size:10px;font-family:sans-serif;
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);
+  color:rgba(200,176,120,.65);
+}
+
+/* ── 地形图例 ── */
+.terrain-bar{
+  display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 28px;
+  padding:16px;background:rgba(0,0,0,.3);border:1px solid var(--border);
+}
+.t-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--parch-dim);font-family:sans-serif;}
+.t-dot{width:13px;height:13px;border-radius:2px;flex-shrink:0;}
+
+/* ── 兵种区 ── */
+.faction-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.faction-tab{
+  padding:8px 20px;cursor:pointer;transition:all .2s;
+  background:rgba(0,0,0,.4);border:1px solid var(--border);
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--parch-dim);
+}
+.faction-tab:hover{border-color:rgba(201,168,76,.35);color:var(--parch);}
+.faction-tab.roman.active{border-color:rgba(220,80,80,.7);color:#E77;background:rgba(139,26,26,.15);}
+.faction-tab.gaul.active{border-color:rgba(80,100,230,.7);color:#99F;background:rgba(26,58,139,.15);}
+.faction-tab.germanic.active{border-color:rgba(80,180,80,.7);color:#7D7;background:rgba(40,100,30,.15);}
+.faction-tab.britannic.active{border-color:rgba(80,160,220,.7);color:#7BD;background:rgba(26,74,106,.15);}
+
+.faction-pane{display:none;}
+.faction-pane.active{display:block;}
+
+.trait-box{
+  padding:14px 18px;margin-bottom:20px;
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);
+  border-left:3px solid var(--gold);
+}
+.trait-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);margin-bottom:6px;}
+.trait-desc{font-size:12px;line-height:1.8;color:var(--parch-dim);}
+
+.unit-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.unit-card{
+  background:rgba(8,3,0,.98);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.unit-card:hover{border-color:rgba(201,168,76,.38);}
+.unit-head{
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.unit-icon{font-size:22px;}
+.unit-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold-l);letter-spacing:1px;}
+.unit-type{font-size:9px;color:var(--gold-d);letter-spacing:3px;font-family:'Cinzel',serif;}
+.unit-body{padding:12px 14px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px;}
+.stat-box{background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.1);padding:5px 8px;text-align:center;}
+.stat-label{font-size:8px;color:var(--gold-d);letter-spacing:1px;font-family:'Cinzel',serif;display:block;}
+.stat-val{font-size:15px;color:var(--parch);font-weight:700;font-family:'Cinzel',serif;}
+.abil-box{margin-bottom:8px;}
+.abil-title{font-size:9px;color:var(--gold);letter-spacing:3px;font-family:'Cinzel',serif;margin-bottom:5px;}
+.abil-item{font-size:11px;color:var(--parch-dim);line-height:1.7;padding-left:10px;position:relative;margin-bottom:3px;}
+.abil-item::before{content:'◆';position:absolute;left:0;top:3px;color:var(--gold-d);font-size:7px;}
+.upg-box{border-top:1px solid rgba(201,168,76,.1);padding-top:8px;}
+.upg-title{font-size:9px;color:#8aaa30;letter-spacing:3px;font-family:'Cinzel',serif;margin-bottom:5px;}
+.upg-item{font-size:10px;color:rgba(170,196,120,.75);line-height:1.7;padding-left:10px;position:relative;margin-bottom:3px;}
+.upg-item::before{content:'↑';position:absolute;left:0;top:0;color:#6a8a20;font-size:10px;}
+
+/* ── 战术区 ── */
+.strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+@media(max-width:700px){.strategy-grid{grid-template-columns:1fr;}}
+.strat-card{
+  background:rgba(10,4,1,.97);border:1px solid var(--border);
+  padding:20px;
+  transition:all .25s;
+}
+.strat-card:hover{border-color:rgba(201,168,76,.38);transform:translateY(-2px);}
+.strat-card.roman{border-left:3px solid #8B1A1A;}
+.strat-card.gaul{border-left:3px solid #1A3A8B;}
+.strat-card.germanic{border-left:3px solid #2A5A20;}
+.strat-card.britannic{border-left:3px solid #1A4A6A;}
+.strat-head{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-l);letter-spacing:2px;margin-bottom:12px;}
+.strat-text{font-size:12px;line-height:1.9;color:var(--parch-dim);}
+.strat-tips{margin-top:12px;display:flex;flex-direction:column;gap:5px;}
+.strat-tip{
+  font-size:11px;color:var(--parch-dim);line-height:1.7;
+  padding-left:12px;position:relative;
+}
+.strat-tip::before{content:'▸';position:absolute;left:0;color:var(--gold-d);}
+
+/* ── 操作说明 ── */
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+@media(max-width:700px){.controls-grid{grid-template-columns:1fr;}}
+.ctrl-card{background:rgba(10,4,1,.97);border:1px solid var(--border);padding:20px;}
+.ctrl-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:14px;}
+.ctrl-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:12px;color:var(--parch-dim);}
+.key{
+  display:inline-block;min-width:36px;text-align:center;
+  background:rgba(0,0,0,.5);border:1px solid rgba(201,168,76,.3);
+  border-radius:3px;padding:2px 8px;font-size:11px;color:var(--gold);
+  font-family:monospace;font-weight:bold;flex-shrink:0;
+}
+.ctrl-sep{height:1px;background:rgba(201,168,76,.08);margin:10px 0;}
+
+/* ── 规则表 ── */
+.rules-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;}
+.rules-table th{
+  padding:8px 14px;text-align:left;
+  background:rgba(201,168,76,.08);
+  border:1px solid var(--border);
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold);
+}
+.rules-table td{
+  padding:8px 14px;border:1px solid rgba(201,168,76,.1);
+  color:var(--parch-dim);line-height:1.7;font-family:sans-serif;
+}
+.rules-table tr:hover td{background:rgba(201,168,76,.04);}
+
+/* ── TIP BOX ── */
+.tip-box{
+  display:flex;gap:12px;align-items:flex-start;
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);
+  padding:12px 16px;margin:16px 0;
+}
+.tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tip-text{font-size:12px;line-height:1.8;color:rgba(200,176,120,.75);}
+
+/* ── FOOTER ── */
+footer{
+  padding:32px;text-align:center;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,.3);
+  font-size:10px;color:rgba(200,176,120,.3);
+  letter-spacing:4px;font-family:'Cinzel',serif;
+  position:relative;z-index:1;
+}
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+
+/* ── 站点导航栏（与其他页面 .navbar 完全一致） ── */
+.site-navbar{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:16px 30px;
+  background:rgba(6,3,1,.92);
+  border-bottom:1px solid rgba(201,168,76,.18);
+  position:relative;z-index:1;
+}
+.site-navbar a{
+  padding:10px 20px;
+  background:rgba(14,6,1,.88);
+  border:1px solid var(--gold-d);
+  color:var(--parch-d);
+  text-decoration:none;
+  font-family:'Cinzel',serif;
+  font-size:12px;
+  letter-spacing:2px;
+  transition:all .2s;
+}
+.site-navbar a:hover,
+.site-navbar a.active{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:rgba(201,168,76,.08);
+}
+
+/* ── 响应式 ── */
+@media(max-width:600px){
+  .hero-title{font-size:32px;}
+  .site-logo{font-size:13px;}
+  #site-header{padding:0 16px;}
+  .page-wrap{padding:0 16px;}
+  .header-nav{display:none;}
+  .site-navbar{padding:12px 16px;}
+  .site-navbar a{padding:8px 14px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="site-logo">
+    CAESAR
+    <span>凯撒：高卢战记 · 玩家帮助站</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#intro"    class="hn-btn">游戏介绍</a>
+    <a href="#maps"     class="hn-btn">地图介绍</a>
+    <a href="#units"    class="hn-btn">兵种介绍</a>
+    <a href="#strategy" class="hn-btn">战术策略</a>
+    <a href="#controls" class="hn-btn">操作说明</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-label">ALEA IACTA EST · 骰子已经投出</div>
+  <h1 class="hero-title">CAESAR</h1>
+  <div class="hero-sub">凯撒：高卢战记 · 玩家帮助站</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">
+    《凯撒：高卢战记》是一款以公元前1世纪罗马征服高卢为背景的<strong style="color:var(--gold-l)">回合制六角格战棋</strong>策略游戏。
+    玩家指挥四大历史势力，在等距3D战场上展开战术较量，还原凯撒《高卢战记》中的六大历史战役。
+  </p>
+  <div class="hero-badges">
+    <span class="hero-badge">⚔ 回合制战棋</span>
+    <span class="hero-badge">🗺 六大历史战役</span>
+    <span class="hero-badge">🦅 四大阵营</span>
+    <span class="hero-badge">🌐 多人联机</span>
+    <span class="hero-badge">🌫 迷雾战争模式</span>
+  </div>
+</section>
+
+<!-- 站点导航 -->
+<nav class="site-navbar">
+  <a href="index.html">首页</a>
+  <a href="play.html">在线游戏</a>
+  <a href="expansion.html">扩展包</a>
+  <a href="help.html" class="active">帮助中心</a>
+  <a href="community.html">玩家社区</a>
+  <a href="download.html">下载</a>
+</nav>
+
+<main class="page-wrap">
+
+<!-- ══ 游戏介绍 ══ -->
+<section id="intro" class="section-block">
+  <div class="sec-label">INTRODUCTIO · 游戏介绍</div>
+  <h2 class="sec-title">了解游戏</h2>
+  <p class="sec-desc">公元前58年，盖乌斯·尤利乌斯·凯撒率领罗马军团开始了长达八年的高卢征服。如今这段历史在六角格战场上重现——指挥你的部队，书写属于你的战史。</p>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🎲</div>
+      <div class="card-title">回合制战棋</div>
+      <div class="card-text">各阵营按顺序轮流行动。每个回合内，你可让每支部队执行一次移动和一次攻击（顺序不限）。行动完毕后点击"结束回合"或按 N 键交换控制权。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚔</div>
+      <div class="card-title">兵种克制体系</div>
+      <div class="card-text">骑兵机动克制远程弓手；弓手远程输出步兵；矛兵专克骑兵；辅助单位（祭司/德鲁伊）为友军提供加成。合理搭配才能最大化战力。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-title">资源与升级</div>
+      <div class="card-text">控制地图上的村庄（+2金/回合）、营地（+3金）、金矿（+5金）来获取收入。金币用于升级部队——每支部队最多可升2至3阶，解锁强力效果。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">胜利条件</div>
+      <div class="card-text">消灭敌方所有存活部队即可获胜。2v2模式下，必须将整支队伍全部消灭才算胜利——单人存活无法保住团队。</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Cinzel',serif;font-size:14px;color:var(--gold-l);letter-spacing:2px;margin:36px 0 14px;">⚔ 战斗机制详解</h3>
+  <table class="rules-table">
+    <thead><tr><th>机制</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><strong style="color:var(--parch)">伤害计算</strong></td><td>攻击伤害 = 攻击者近战/远程值 − 防御者防御值 − 地形防御加成，最低造成 1 点伤害</td></tr>
+      <tr><td><strong style="color:var(--parch)">反击机制</strong></td><td>被近战攻击时，防御方自动反击。远程单位（弓手、投石兵）不会反击。罗马军团升级后反击+1</td></tr>
+      <tr><td><strong style="color:var(--parch)">待机回血</strong></td><td>本回合未移动、未攻击且未受攻击的单位，下回合开始时自动恢复 2 HP</td></tr>
+      <tr><td><strong style="color:var(--parch)">标枪先制</strong></td><td>罗马军团步兵攻击时，第一轮额外造成投枪伤害，可突破防御阵型</td></tr>
+      <tr><td><strong style="color:var(--parch)">冲锋加成</strong></td><td>骑兵/战车移动 2 格以上后攻击，额外获得 +2（或+3）伤害加成</td></tr>
+      <tr><td><strong style="color:var(--parch)">暴击机制</strong></td><td>高卢血性特性：主动进攻时有概率触发 2 倍伤害暴击</td></tr>
+      <tr><td><strong style="color:var(--parch)">狂怒状态</strong></td><td>高卢战士血量低于 50% 时，近战伤害+2，越打越猛</td></tr>
+      <tr><td><strong style="color:var(--parch)">森林伏击</strong></td><td>日耳曼森林战士站在森林地形时，攻击额外+2 伤害</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Cinzel',serif;font-size:14px;color:var(--gold-l);letter-spacing:2px;margin:36px 0 14px;">🎮 游戏模式</h3>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">人机对战 (PvE)</div>
+      <div class="card-text">玩家对抗 AI，可选三档难度：<br><br>🌿 <strong style="color:var(--parch)">初级将领</strong> — AI 行动保守，适合新手熟悉机制<br>⚔ <strong style="color:var(--parch)">老练执政官</strong> — 均衡 AI，掌握升级与进攻节奏，推荐<br>🦅 <strong style="color:var(--parch)">不败凯撒</strong> — AI 极具侵略性，时刻升级、全力压制</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👥</div>
+      <div class="card-title">双人对战 (PvP)</div>
+      <div class="card-text">同一台设备上双人轮流操作，适合面对面对弈。无需网络，直接选择战役和阵营即可开始。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">联机对战</div>
+      <div class="card-text">支持 2人、3人、4人（2v2）联机。主机创建房间并分享 4 位房间号，其他玩家输入加入。人数不足时，空位自动由 AI 补位。</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌫</div>
+      <div class="card-title">迷雾战争模式</div>
+      <div class="card-text">开启后，只能看到己方单位视野范围内的敌军。骑兵视野 3 格，步兵/弓手视野 2 格。森林 −1、山地 +2。控制的村庄和营地额外提供周边 1 格视野。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 地图介绍 ══ -->
+<section id="maps" class="section-block">
+  <div class="sec-label">TERRITORIUM · 地图介绍</div>
+  <h2 class="sec-title">战役地图</h2>
+  <p class="sec-desc">游戏共有六场战役，前五场还原真实历史地形，第六场每局随机生成。每幅地图都有独特的地形布局，深刻影响战术选择。</p>
+
+  <div class="tip-box">
+    <span class="tip-icon">🗺</span>
+    <span class="tip-text">地图使用等距3D视角呈现，下方地图预览为平面俯视简化示意图。颜色说明见地形图例。</span>
+  </div>
+
+  <div class="terrain-bar">
+    <div class="t-item"><div class="t-dot" style="background:#9E9E60"></div>平原 · 防御+0</div>
+    <div class="t-item"><div class="t-dot" style="background:#2D6A2D"></div>森林 · 防御+2 · 移动×2</div>
+    <div class="t-item"><div class="t-dot" style="background:#686868"></div>山脉 · 防御+3 · 移动×3</div>
+    <div class="t-item"><div class="t-dot" style="background:#3060BB"></div>河流 · 防御+1 · 移动×2</div>
+    <div class="t-item"><div class="t-dot" style="background:#B08818"></div>村庄 · 收入+2/回</div>
+    <div class="t-item"><div class="t-dot" style="background:#784418"></div>营地 · 防御+1 · 收入+3/回</div>
+    <div class="t-item"><div class="t-dot" style="background:#CC9800"></div>金矿 · 收入+5/回</div>
+  </div>
+
+  <div class="map-grid" id="map-grid"></div>
+</section>
+
+<!-- ══ 兵种介绍 ══ -->
+<section id="units" class="section-block">
+  <div class="sec-label">CODEX MILITUM · 兵种介绍</div>
+  <h2 class="sec-title">四大阵营兵种</h2>
+  <p class="sec-desc">每个阵营拥有3至4种独特兵种，各有数值特点、专属技能和升级路线。合理搭配部队才能发挥阵营特性的最大潜力。</p>
+
+  <div class="faction-tabs">
+    <button class="faction-tab roman active"  onclick="switchFaction('roman')">🦅 罗马共和国</button>
+    <button class="faction-tab gaul"           onclick="switchFaction('gaul')">🐗 高卢联盟</button>
+    <button class="faction-tab germanic"       onclick="switchFaction('germanic')">🪓 日耳曼部落</button>
+    <button class="faction-tab britannic"      onclick="switchFaction('britannic')">🏹 不列颠部落</button>
+  </div>
+
+  <div id="unit-panes"></div>
+</section>
+
+<!-- ══ 战术策略 ══ -->
+<section id="strategy" class="section-block">
+  <div class="sec-label">STRATEGIA · 战术策略</div>
+  <h2 class="sec-title">阵容与战术</h2>
+  <p class="sec-desc">每个阵营都有独特的战术风格，了解己方优势和克制方式是取胜的关键。</p>
+
+  <div class="strategy-grid">
+    <div class="strat-card roman">
+      <div class="strat-head">🦅 罗马军团 · 坚壁清野</div>
+      <div class="strat-text">罗马以<strong style="color:var(--parch)">持久战</strong>见长，韧性特性让每支受伤单位每回合自动+1回血，长期消耗中优势愈发明显。</div>
+      <div class="strat-tips">
+        <div class="strat-tip">军团步兵组建前排防线，标枪先制削弱冲锋威胁</div>
+        <div class="strat-tip">弓箭手退后2格，安全输出享受精准射击加成</div>
+        <div class="strat-tip">骑兵保护侧翼，防止敌方骑兵包抄弓箭手</div>
+        <div class="strat-tip">优先升级"老兵→精锐→百夫长"构建最强防线</div>
+        <div class="strat-tip">控制营地和金矿保证经济，持续升级压垮对手</div>
+      </div>
+    </div>
+    <div class="strat-card gaul">
+      <div class="strat-head">🐗 高卢联盟 · 狂暴突击</div>
+      <div class="strat-text">高卢以<strong style="color:var(--parch)">速攻暴力</strong>为核心，血性特性暴击加成配合低血量狂暴，适合以命换命的激烈对攻。</div>
+      <div class="strat-tips">
+        <div class="strat-tip">贵族骑兵（移动6）开路，优先斩断敌方弓手</div>
+        <div class="strat-tip">部落战士低血量时狂暴伤害飙升，不要轻易撤退</div>
+        <div class="strat-tip">投石兵利用游击战术骚扰敌后，打完即退</div>
+        <div class="strat-tip">"精选战马+重装冲锋"后骑兵近战13点，全场最强</div>
+        <div class="strat-tip">开局快速冲压，别给罗马积累回血优势的时间</div>
+      </div>
+    </div>
+    <div class="strat-card germanic">
+      <div class="strat-head">🪓 日耳曼部落 · 密林猎人</div>
+      <div class="strat-text">日耳曼在<strong style="color:var(--parch)">森林地形</strong>近乎无敌，击杀回血+攻击加成的滚雪球机制让中后期越来越强。</div>
+      <div class="strat-tips">
+        <div class="strat-tip">森林战士进入林区，攻击+2、防御+2，让敌军无从奈何</div>
+        <div class="strat-tip">战狼骑兵移动7，多骑并肩狼群加成叠加到恐怖攻击值</div>
+        <div class="strat-tip">战争祭司驻守后方，战歌Buff覆盖全线友军</div>
+        <div class="strat-tip">利用骑兵切断敌方支援，在森林中逐一歼灭</div>
+        <div class="strat-tip">击杀越多、回血越多、攻击越强——积极主动换血</div>
+      </div>
+    </div>
+    <div class="strat-card britannic">
+      <div class="strat-head">🏹 不列颠部落 · 战车风暴</div>
+      <div class="strat-text">不列颠以<strong style="color:var(--parch)">机动性</strong>和破防能力为核心，战车无视地形防御加成，让对手的地形优势形同虚设。</div>
+      <div class="strat-tips">
+        <div class="strat-tip">战车冲3格+突袭+3伤害，且完全无视所有地形防御</div>
+        <div class="strat-tip">弓手占据山地，丘陵射击额外+2，高地狙击占尽优势</div>
+        <div class="strat-tip">德鲁伊防御+1光环覆盖前排，升级后额外每回合回血2</div>
+        <div class="strat-tip">矛兵反骑兵+2，专门守卫弓手和德鲁伊不被骑兵突袭</div>
+        <div class="strat-tip">风筝战术：战车冲入造成高额伤害，再高机动力拉开距离</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:28px;">
+    <span class="tip-icon">💡</span>
+    <div class="tip-text">
+      <strong style="color:var(--parch)">通用要点：</strong><br>
+      · 早期派骑兵占领金矿（+5金/回），经济领先就能率先完成核心升级<br>
+      · 弓手防御极低，必须躲在步兵后方2格，切勿与近战单位正面硬扛<br>
+      · 有时让单位原地待机（回血2HP）比贸然进攻更划算，耐心等待时机<br>
+      · 让步兵站在森林/山地上，防御+2至+3，让敌人的高攻击无从发挥
+    </div>
+  </div>
+</section>
+
+<!-- ══ 操作说明 ══ -->
+<section id="controls" class="section-block">
+  <div class="sec-label">IMPERIUM · 操作说明</div>
+  <h2 class="sec-title">游戏操作</h2>
+  <p class="sec-desc">熟悉操作方式可以让你更专注于战术决策，而不是与界面搏斗。</p>
+
+  <div class="controls-grid">
+    <div class="ctrl-card">
+      <div class="ctrl-title">🖱 鼠标操作</div>
+      <div class="ctrl-row"><span class="key">左键</span> 选中己方单位，高亮可移动格（绿）和攻击目标（红）</div>
+      <div class="ctrl-row"><span class="key">左键</span> 点绿色格 → 移动到该格</div>
+      <div class="ctrl-row"><span class="key">左键</span> 点红色敌军 → 发起攻击</div>
+      <div class="ctrl-row"><span class="key">左键</span> 点敌方单位 → 仅查看属性</div>
+      <div class="ctrl-sep"></div>
+      <div class="ctrl-row"><span class="key">拖拽</span> 平移地图视野</div>
+      <div class="ctrl-row"><span class="key">滚轮</span> 缩放地图</div>
+      <div class="ctrl-row"><span class="key">悬停</span> 在单位上显示属性提示</div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">⌨ 键盘快捷键</div>
+      <div class="ctrl-row"><span class="key">N</span> 结束当前回合</div>
+      <div class="ctrl-row"><span class="key">Esc</span> 取消当前选中</div>
+      <div class="ctrl-sep"></div>
+      <div class="ctrl-row"><span class="key">W</span> / <span class="key">↑</span> 向上平移地图</div>
+      <div class="ctrl-row"><span class="key">S</span> / <span class="key">↓</span> 向下平移地图</div>
+      <div class="ctrl-row"><span class="key">A</span> / <span class="key">←</span> 向左平移地图</div>
+      <div class="ctrl-row"><span class="key">D</span> / <span class="key">→</span> 向右平移地图</div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">📊 界面元素</div>
+      <div class="ctrl-row" style="align-items:flex-start;"><span class="key" style="min-width:52px;">顶栏</span> 左侧各阵营金币；中间回合/阵营；右侧各阵营存活数</div>
+      <div class="ctrl-row" style="align-items:flex-start;"><span class="key" style="min-width:52px;">左侧</span> 地形图例，快速识别战场各类地形</div>
+      <div class="ctrl-row" style="align-items:flex-start;"><span class="key" style="min-width:52px;">右侧</span> 选中单位后显示：生命条、攻防移、技能、状态，以及可用升级选项</div>
+      <div class="ctrl-row" style="align-items:flex-start;"><span class="key" style="min-width:52px;">底栏</span> 战斗日志，实时记录移动、攻击和伤害事件</div>
+      <div class="ctrl-row" style="align-items:flex-start;"><span class="key" style="min-width:52px;">小地图</span> 右下角全局俯瞰；黄框为当前视野范围</div>
+    </div>
+    <div class="ctrl-card">
+      <div class="ctrl-title">💡 新手提示</div>
+      <div class="ctrl-row" style="align-items:flex-start;font-size:11.5px;display:block;line-height:1.9;color:var(--parch-dim);">
+        单位<strong style="color:var(--parch)">绿色高亮</strong>表示仍可行动；<strong style="color:var(--parch)">变暗</strong>表示本回合已行动完毕。<br><br>
+        升级时机：尽量在有金矿收入的前几回合完成核心升级，后期差距会越来越大。<br><br>
+        AI 行动时会显示"正在思考…"提示，此时不可操作，稍等片刻即可。<br><br>
+        联机模式下，客机的操作会实时同步给主机广播，延迟取决于网络质量。
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>凯撒：高卢战记 · 玩家帮助站</div>
+  <div style="margin-top:8px;font-size:9px;color:rgba(200,176,120,.18);">CAESAR: BELLUM GALLICUM · AUXILIUM SITE</div>
+</footer>
+
+<script>
+// ── 地图数据 ──────────────────────────────────────────────────
+const MAP_DATA = [
+  {
+    id:0, name:'高卢战争', sub:'莱茵河平原',
+    era:'公元前 58 年 · BELLUM GALLICUM',
+    factions:'🦅 罗马共和国 vs 🐗 高卢联盟',
+    desc:'凯撒率军在萨奥纳河东岸拦截赫尔维蒂人。宽阔平原地形为主，两条莱茵河支流将战场分隔为三块区域。中央地带是决战核心，双方需争夺河流两侧的战略要地。骑兵在此地形优势显著，但河流渡口是必争之地。',
+    tags:['双河流屏障','中央村庄争夺','开阔平原利骑兵','双金矿'],
+    layout:{w:24,h:18,
+      rivers:[[11,'v'],[12,'v'],[22,'v'],[23,'v']],
+      forests:[{q0:3,r0:1,q1:9,r1:6},{q0:3,r0:12,r1:16,q1:10},{q0:13,r0:2,q1:18,r1:7},{q0:5,r0:12,q1:13,r1:16}],
+      mts:[{q0:0,r0:5,q1:3,r1:13}],
+      vils:[[5,9],[6,9],[17,4],[18,9],[16,13]],
+      camps:[[1,13],[2,13]],mines:[[8,14],[15,11]]}
+  },
+  {
+    id:1, name:'维钦托利起义', sub:'阿维尔尼高地',
+    era:'公元前 52 年 · VERCINGETORIX',
+    factions:'🦅 罗马共和国 vs 🐗 高卢联盟',
+    desc:'高卢贵族于阿维尔尼高地密林坚壁清野，日尔戈维亚之战重创罗马军团。崎岖山地与密林并存，地形极为复杂。中央山脉形成天然屏障，高卢军在此如鱼得水，罗马重甲步兵移动困难。',
+    tags:['中央山脉屏障','大面积密林','溪流蜿蜒','伏击要地'],
+    layout:{w:22,h:20,
+      rivers:[{type:'path',pts:[[2,4],[3,5],[4,5],[5,6],[6,6],[7,7],[8,7]]}],
+      forests:[{q0:1,r0:2,q1:6,r1:9},{q0:14,r0:3,q1:19,r1:10},{q0:3,r0:14,q1:17,r1:18}],
+      mts:[{q0:6,r0:9,q1:14,r1:13}],
+      vils:[[10,10],[16,4],[18,13],[4,16]],
+      camps:[[1,10],[2,10]],mines:[[5,13],[17,10]]}
+  },
+  {
+    id:2, name:'阿莱西亚围攻战', sub:'孟托克斯山',
+    era:'公元前 52 年 · ALESIA',
+    factions:'🦅 罗马共和国 vs 🐗 高卢联盟',
+    desc:'凯撒以双重环形工事围困孟托克斯山——内环困住守军，外环阻击援军。四条护城河形成方形包围圈，营地密布，此役终结高卢抵抗。守方拥有极大的地形防御优势。',
+    tags:['四面护城河','双重工事','密集营地','两金矿战略点'],
+    layout:{w:26,h:20,
+      rivers:[{type:'rect',q0:5,r0:4,q1:21,r1:5},{type:'rect',q0:5,r0:14,q1:21,r1:15},{type:'rect',q0:4,r0:4,q1:5,r1:16},{type:'rect',q0:21,r0:4,q1:22,r1:16}],
+      forests:[{q0:1,r0:5,q1:4,r1:15},{q0:22,r0:5,q1:26,r1:15},{q0:5,r0:1,q1:21,r1:4},{q0:5,r0:16,q1:21,r1:19}],
+      mts:[{q0:10,r0:7,q1:16,r1:13}],
+      vils:[[11,9],[12,9],[12,8]],
+      camps:[[6,5],[9,5],[12,5],[15,5],[18,5],[6,14],[9,14],[12,14],[15,14],[18,14],[5,7],[5,10],[5,13],[20,7],[20,10],[20,13]],
+      mines:[[7,9],[18,10]]}
+  },
+  {
+    id:3, name:'越过莱茵河', sub:'日耳曼密林',
+    era:'公元前 55 年 · CROSSING THE RHINE',
+    factions:'🦅 罗马共和国 vs 🪓 日耳曼部落',
+    desc:'凯撒十天建木桥跨越莱茵河，率军进入日耳曼密林。视野受到严重遮蔽，日耳曼森林战士在此享有巨大地形加成，罗马军团须谨慎推进，避免遭受伏击。',
+    tags:['大范围密林','河流分割','日耳曼本土优势','伏击险境'],
+    layout:{w:22,h:20,
+      rivers:[[10,'v'],[11,'v']],
+      forests:[{q0:0,r0:1,q1:9,r1:12},{q0:12,r0:2,q1:21,r1:14},{q0:2,r0:14,q1:20,r1:19}],
+      mts:[{q0:7,r0:4,q1:13,r1:9}],
+      vils:[[4,6],[17,7],[9,14]],
+      camps:[[1,8],[20,8]],mines:[[5,12],[16,10]]}
+  },
+  {
+    id:4, name:'远征不列颠', sub:'海岸要塞',
+    era:'公元前 55 年 · BRITANNIA EXPEDITION',
+    factions:'🦅 罗马共和国 vs 🏹 不列颠部落',
+    desc:'凯撒两次登陆不列颠岛，岛上部落以战车冲锋迎击。开阔海滩适合战车突袭，内陆丘陵有多处防御要点，不列颠弓手居高临下射程优势明显。',
+    tags:['战车冲锋平原','制高点弓手阵地','沿海登陆','丘陵攻防'],
+    layout:{w:22,h:20,
+      rivers:[[10,'v']],
+      forests:[{q0:1,r0:1,q1:6,r1:8},{q0:15,r0:2,q1:21,r1:9},{q0:4,r0:14,q1:18,r1:19}],
+      mts:[{q0:7,r0:9,q1:15,r1:16}],
+      vils:[[3,4],[18,5],[10,7]],
+      camps:[[1,10],[20,10]],mines:[[6,13],[16,12]]}
+  },
+  {
+    id:5, name:'随机战场', sub:'命运之骰',
+    era:'PROELIUM FORTUITO · 每局独一无二',
+    factions:'四大阵营自由选择',
+    desc:'由随机地图生成器创造，包含随机数量的河流（1-2条）、山脉（1-3块）、森林（3-5处）、村庄（2-4个）、营地和金矿。地图尺寸随人数变化：2人约22×18，3人28×22，4人30×24。',
+    tags:['每局全新地形','四阵营可选','地图随人数缩放','无限重玩性'],
+    layout:{w:22,h:18,
+      rivers:[[11,'v']],
+      forests:[{q0:2,r0:2,q1:8,r1:8},{q0:13,r0:4,q1:19,r1:11}],
+      mts:[{q0:7,r0:5,q1:14,r1:12}],
+      vils:[[4,3],[17,3],[4,14],[17,14]],
+      camps:[[1,9],[20,9]],mines:[[10,4],[11,14]]}
+  }
+];
+
+// ── 绘制地图预览 ─────────────────────────────────────────────
+function drawMap(canvas, lay){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const cw=W/lay.w, ch=H/lay.h;
+
+  // 底色平原
+  ctx.fillStyle='#7A7A48'; ctx.fillRect(0,0,W,H);
+
+  // 森林
+  ctx.fillStyle='#255220';
+  (lay.forests||[]).forEach(f=>{
+    if(f.q0!==undefined) ctx.fillRect(f.q0*cw,f.r0*ch,(f.q1-f.q0)*cw,(f.r1-f.r0)*ch);
+  });
+
+  // 山脉
+  ctx.fillStyle='#555555';
+  (lay.mts||[]).forEach(m=>{
+    ctx.fillRect(m.q0*cw,m.r0*ch,(m.q1-m.q0)*cw,(m.r1-m.r0)*ch);
+  });
+
+  // 河流
+  ctx.fillStyle='#2A52AA';
+  (lay.rivers||[]).forEach(r=>{
+    if(Array.isArray(r)){
+      if(r[1]==='v') ctx.fillRect(r[0]*cw,0,cw,H);
+      else if(r[1]==='h') ctx.fillRect(0,r[0]*ch,W,ch);
+    } else if(r.type==='rect'){
+      ctx.fillRect(r.q0*cw,r.r0*ch,(r.q1-r.q0)*cw,(r.r1-r.r0)*ch);
+    } else if(r.type==='path'){
+      r.pts.forEach(([q,rv])=>ctx.fillRect(q*cw,rv*ch,cw,ch));
+    }
+  });
+
+  // 村庄
+  ctx.fillStyle='#AA7818';
+  (lay.vils||[]).forEach(([q,r])=>ctx.fillRect(q*cw-0.5,r*ch-0.5,cw+1,ch+1));
+
+  // 营地（较小的点）
+  ctx.fillStyle='#6A3818';
+  (lay.camps||[]).forEach(([q,r])=>ctx.fillRect(q*cw,r*ch,cw,ch));
+
+  // 金矿
+  ctx.fillStyle='#DDC000';
+  (lay.mines||[]).forEach(([q,r])=>{
+    ctx.fillRect(q*cw,r*ch,cw,ch);
+    // 金色光晕效果
+    ctx.fillStyle='rgba(255,200,0,.25)';
+    ctx.fillRect((q-0.5)*cw,(r-0.5)*ch,cw*2,ch*2);
+    ctx.fillStyle='#DDC000';
+  });
+
+  // 格线
+  ctx.strokeStyle='rgba(0,0,0,.12)'; ctx.lineWidth=0.3;
+  for(let q=0;q<=lay.w;q++){ctx.beginPath();ctx.moveTo(q*cw,0);ctx.lineTo(q*cw,H);ctx.stroke();}
+  for(let rv=0;rv<=lay.h;rv++){ctx.beginPath();ctx.moveTo(0,rv*ch);ctx.lineTo(W,rv*ch);ctx.stroke();}
+
+  // 边框
+  ctx.strokeStyle='rgba(201,168,76,.35)'; ctx.lineWidth=1.5;
+  ctx.strokeRect(0.5,0.5,W-1,H-1);
+}
+
+// ── 渲染地图卡片 ─────────────────────────────────────────────
+function buildMaps(){
+  const grid=document.getElementById('map-grid');
+  MAP_DATA.forEach(m=>{
+    const card=document.createElement('div');
+    card.className='map-card';
+
+    const cvs=document.createElement('canvas');
+    cvs.className='map-preview';
+    cvs.width=400; cvs.height=160;
+    card.appendChild(cvs);
+
+    const info=document.createElement('div');
+    info.className='map-info';
+    info.innerHTML=`
+      <div class="map-title">${m.name} · ${m.sub}</div>
+      <div class="map-era">${m.era}</div>
+      <div style="font-size:10px;color:var(--gold-d);letter-spacing:2px;margin-bottom:8px;font-family:'Cinzel',serif;">${m.factions}</div>
+      <div class="map-desc">${m.desc}</div>
+      <div class="map-tags">${m.tags.map(t=>`<span class="map-tag">· ${t}</span>`).join('')}</div>`;
+    card.appendChild(info);
+    grid.appendChild(card);
+
+    setTimeout(()=>drawMap(cvs,m.layout),60);
+  });
+}
+
+// ── 兵种数据 ─────────────────────────────────────────────────
+const FACTIONS={
+  roman:{
+    label:'🦅 罗马共和国', cls:'roman',
+    trait:{name:'🛡 阵营特性：韧性',desc:'罗马军团以严明的纪律著称。所有单位反击伤害+1；每回合结束后，所有受伤单位自动回复 1 点生命值。'},
+    units:[
+      {icon:'⚔',name:'军团步兵',type:'重甲步兵',
+       stats:{生命:14,近战:6,防御:3,移动:3,视野:2},
+       abilities:[{n:'投枪先制 (Pilum)',d:'攻击前先投掷重标枪，第一轮战斗额外造成伤害，可破防御阵型，克制冲锋单位。'}],
+       upgrades:[{n:'老兵训练',c:50,r:'—',e:'生命+2，防御+1'},{n:'精锐军团',c:75,r:'老兵训练',e:'近战+1，反击+1'},{n:'百夫长',c:100,r:'精锐军团',e:'生命+1，近战+1，防御+1（三阶最强防线）'}]},
+      {icon:'🏹',name:'辅助弓箭手',type:'远程单位',
+       stats:{生命:8,远程:6,防御:1,移动:3,射程:2,视野:2},
+       abilities:[{n:'精准射击 (Precision Shot)',d:'可忽视部分地形防御加成，对骑兵单位额外+2伤害，远程压制利器。'}],
+       upgrades:[{n:'改进箭矢',c:50,r:'—',e:'远程+2（大幅提升输出）'},{n:'快速射击',c:75,r:'改进箭矢',e:'射程+1，生命+1（覆盖更广区域）'}]},
+      {icon:'🐴',name:'罗马骑兵',type:'重甲骑兵',
+       stats:{生命:12,近战:7,防御:3,移动:5,视野:3},
+       abilities:[{n:'冲锋 (Charge)',d:'移动2格以上后攻击，额外获得+2伤害加成，是高爆发突击单位。'}],
+       upgrades:[{n:'优质马匹',c:60,r:'—',e:'移动+1，生命+2（机动性更强）'},{n:'重装冲锋',c:80,r:'优质马匹',e:'近战+2，防御+1（冲锋伤害骇人）'}]},
+    ]
+  },
+  gaul:{
+    label:'🐗 高卢联盟', cls:'gaul',
+    trait:{name:'🔥 阵营特性：血性',desc:'高卢战士狂放不羁，主动进攻时有概率触发暴击（2倍伤害）。被动挨打不触发，需主动出击激活血性。'},
+    units:[
+      {icon:'🗡',name:'部落战士',type:'近战步兵',
+       stats:{生命:12,近战:7,防御:3,移动:4,视野:2},
+       abilities:[{n:'狂暴 (Berserk)',d:'血量低于50%时近战伤害+2，越打越猛。濒死反击能力极强，不要在低血量时撤退。'}],
+       upgrades:[{n:'战意激发',c:50,r:'—',e:'近战+2，生命+1'},{n:'狂战士',c:75,r:'战意激发',e:'近战+2，防御+1（狂暴状态下攻击力恐怖）'}]},
+      {icon:'🪃',name:'高卢投石兵',type:'远程单位',
+       stats:{生命:7,远程:5,防御:1,移动:4,射程:2,视野:2},
+       abilities:[{n:'精准射击 (Precision Shot)',d:'可忽视部分地形防御，对骑兵额外+2伤害，游击扰敌利器。'}],
+       upgrades:[{n:'淬石弹丸',c:50,r:'—',e:'远程+2'},{n:'游击战术',c:75,r:'淬石弹丸',e:'移动+1，对步兵伤害+1'}]},
+      {icon:'🐎',name:'贵族骑兵',type:'冲锋骑兵',
+       stats:{生命:11,近战:8,防御:2,移动:6,视野:3},
+       abilities:[{n:'冲锋 (Charge)',d:'移动2格以上后攻击额外+2伤害。领导光环：相邻友军近战+1，战场催化剂。'}],
+       upgrades:[{n:'精选战马',c:60,r:'—',e:'移动+1，生命+2'},{n:'重装冲锋',c:80,r:'精选战马',e:'近战+3（全场最强单体近战13点）'}]},
+    ]
+  },
+  germanic:{
+    label:'🪓 日耳曼部落', cls:'germanic',
+    trait:{name:'🔥 阵营特性：狂怒',desc:'击杀敌军后恢复2生命，并获得本回合攻击+1。升级"部落勇士"后狂怒效果翻倍（额外回复2HP）。越杀越强的滚雪球阵营。'},
+    units:[
+      {icon:'🪓',name:'森林战士',type:'伏击步兵',
+       stats:{生命:13,近战:8,防御:2,移动:4,视野:3},
+       abilities:[{n:'森林伏击 (Forest Ambush)',d:'站在森林地形攻击时额外+2伤害，森林防御也额外+1，是最强的森林战斗专家。'}],
+       upgrades:[{n:'战斧战士',c:60,r:'—',e:'攻击+2，森林防御加成+1'},{n:'部落勇士',c:80,r:'战斧战士',e:'生命+2，狂怒效果翻倍（击杀回复4HP）'}]},
+      {icon:'🗡',name:'标枪猎手',type:'游击远程',
+       stats:{生命:8,远程:5,防御:1,移动:5,射程:2,视野:2},
+       abilities:[{n:'游击投掷 (Skirmish Throw)',d:'攻击后可移动1格撤退，兼具游击骚扰和快速脱离能力的灵活远程单位。'}],
+       upgrades:[{n:'重标枪',c:50,r:'—',e:'远程+2'},{n:'猎手大师',c:75,r:'重标枪',e:'移动+1，对步兵伤害+2'}]},
+      {icon:'🐺',name:'战狼骑兵',type:'闪电骑兵',
+       stats:{生命:12,近战:9,防御:2,移动:7,视野:3},
+       abilities:[{n:'狼群突袭 (Wolf Pack)',d:'每头相邻友军战狼骑兵为自己+1攻击，多骑并肩时攻击力爆炸性叠加。'}],
+       upgrades:[{n:'驯狼骑士',c:70,r:'—',e:'移动+1，近战+1'},{n:'血狼骑兵',c:90,r:'驯狼骑士',e:'生命+1，狼群加成+2'}]},
+      {icon:'🔮',name:'狂战祭司',type:'支援单位',
+       stats:{生命:10,近战:4,防御:2,移动:4,视野:2},
+       abilities:[{n:'战歌 (Warsong)',d:'每回合开始，周围2格内友军攻击+1。升级后效果提升至+3，大范围战场增益。'}],
+       upgrades:[{n:'战争祭司',c:80,r:'—',e:'战歌效果+2（周围友军共+3攻击）'}]},
+    ]
+  },
+  britannic:{
+    label:'🏹 不列颠部落', cls:'britannic',
+    trait:{name:'🏎 阵营特性：战车战术',desc:'不列颠战车攻击时完全无视地形带来的防御加成，直接破防。无论平原、森林、山地，防御加成一律无效。'},
+    units:[
+      {icon:'🗡',name:'部落矛兵',type:'反骑步兵',
+       stats:{生命:12,近战:7,防御:3,移动:4,视野:2},
+       abilities:[{n:'抗骑兵 (Anti-Cavalry)',d:'对所有骑兵单位额外+2伤害，是克制骑兵的最佳选择，保护后排弓手的守护者。'}],
+       upgrades:[{n:'精锐矛兵',c:60,r:'—',e:'生命+2，防御+1'},{n:'勇士卫队',c:80,r:'精锐矛兵',e:'生命+1，近战+1（最终生命15，防御4）'}]},
+      {icon:'🏹',name:'不列颠弓手',type:'远程单位',
+       stats:{生命:8,远程:6,防御:1,移动:4,射程:2,视野:2},
+       abilities:[{n:'丘陵射击 (Hill Shot)',d:'站在山地攻击时额外+2伤害，利用高地优势远程狙击，配合战场制高点效果极佳。'}],
+       upgrades:[{n:'长弓射手',c:60,r:'—',e:'远程+1，射程+1'},{n:'猎鹰弓手',c:80,r:'长弓射手',e:'远程+1，移动+1'}]},
+      {icon:'🏎',name:'战车战士',type:'突袭战车',
+       stats:{生命:11,近战:8,防御:2,移动:7,视野:3},
+       abilities:[{n:'战车突袭 (Chariot Charge)',d:'移动3格以上后攻击额外+3伤害，且完全无视地形防御加成（阵营特性），破防神器。'}],
+       upgrades:[{n:'重型战车',c:70,r:'—',e:'生命+2，防御+1'},{n:'贵族战车',c:80,r:'重型战车',e:'近战+2，生命+1（最终攻击10，突袭+3=13）'}]},
+      {icon:'🌿',name:'德鲁伊',type:'治疗支援',
+       stats:{生命:10,近战:3,防御:2,移动:4,视野:2},
+       abilities:[{n:'自然祝福 (Nature Blessing)',d:'每回合为周围1格内所有友军提供防御+1，保护核心单位的不可或缺的支援者。'}],
+       upgrades:[{n:'大德鲁伊',c:80,r:'—',e:'自然祝福保留，额外每回合回复周围友军2HP'}]},
+    ]
+  }
+};
+
+function switchFaction(fa){
+  document.querySelectorAll('.faction-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.faction-tab.${fa}`).classList.add('active');
+  renderUnits(fa);
+}
+
+function renderUnits(fa){
+  const data=FACTIONS[fa];
+  const panes=document.getElementById('unit-panes');
+
+  let html=`<div class="faction-pane active">
+    <div class="trait-box">
+      <div class="trait-name">${data.trait.name}</div>
+      <div class="trait-desc">${data.trait.desc}</div>
+    </div>
+    <div class="unit-list">`;
+
+  data.units.forEach(u=>{
+    const statsHtml=Object.entries(u.stats).map(([k,v])=>`
+      <div class="stat-box">
+        <span class="stat-label">${k}</span>
+        <span class="stat-val">${v}</span>
+      </div>`).join('');
+
+    const ablHtml=u.abilities.map(a=>`
+      <div class="abil-item"><b style="color:var(--gold-l)">${a.n}</b><br>${a.d}</div>`).join('');
+
+    const upgHtml=u.upgrades.map((ug,i)=>{
+      const chain=i>0?`<span style="color:rgba(200,176,120,.3);font-size:9px;"> ← ${u.upgrades[i-1].n}</span>`:'';
+      return `<div class="upg-item"><b style="color:#b8d060">${ug.n}</b>（💰${ug.c}）${chain}<br>${ug.e}</div>`;
+    }).join('');
+
+    html+=`<div class="unit-card">
+      <div class="unit-head">
+        <div class="unit-icon">${u.icon}</div>
+        <div>
+          <div class="unit-name">${u.name}</div>
+          <div class="unit-type">${u.type}</div>
+        </div>
+      </div>
+      <div class="unit-body">
+        <div class="stats-grid">${statsHtml}</div>
+        <div class="abil-box">
+          <div class="abil-title">⚔ 特殊技能</div>
+          ${ablHtml}
+        </div>
+        <div class="upg-box">
+          <div class="upg-title">↑ 升级路线</div>
+          ${upgHtml}
+        </div>
+      </div>
+    </div>`;
+  });
+  html+='</div></div>';
+  panes.innerHTML=html;
+}
+
+// ── Hero Canvas 粒子背景 ─────────────────────────────────────
+function initHeroCanvas(){
+  const cvs=document.getElementById('hero-canvas');
+  const ctx=cvs.getContext('2d');
+  let W,H;
+  function resize(){W=cvs.width=cvs.offsetWidth;H=cvs.height=cvs.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+
+  // 生成星点粒子
+  const stars=Array.from({length:120},()=>({
+    x:Math.random(),y:Math.random(),
+    s:Math.random()*.8+.2,
+    v:Math.random()*.0002+.0001,
+    a:Math.random()
+  }));
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.v;
+      const alpha=(.3+.7*Math.abs(Math.sin(s.a)))*.6;
+      ctx.fillStyle=`rgba(201,168,76,${alpha})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ── 导航高亮 ─────────────────────────────────────────────────
+function initNavHighlight(){
+  const sections=document.querySelectorAll('section[id]');
+  const btns=document.querySelectorAll('.hn-btn');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        btns.forEach(b=>b.classList.remove('active'));
+        const btn=document.querySelector(`.hn-btn[href="#${e.target.id}"]`);
+        if(btn)btn.classList.add('active');
+      }
+    });
+  },{threshold:0.4});
+  sections.forEach(s=>obs.observe(s));
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  initHeroCanvas();
+  buildMaps();
+  renderUnits('roman');
+  initNavHighlight();
+});
+</script>
+</body>
+</html>
